@@ -2,7 +2,7 @@ import { Suspense, lazy, ComponentType, JSX } from "react";
 import { useRoutes, Navigate } from "react-router-dom";
 // import { useAuth } from '../contexts/AuthContext';
 
-// import RouteWrapper from '../layouts/RouteWrapper';
+import RouteWrapper from "../wrappers";
 import NotFound from "../NotFound";
 // import RouteWrapper from "../pages/wrappers";
 
