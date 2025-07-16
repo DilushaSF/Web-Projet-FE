@@ -1,13 +1,13 @@
-import { type ReactElement } from "react";
 import { Outlet } from "react-router-dom";
-// import TopBar from "../navigation/topbar";
+// import SideNavbar from "../navigation/sidenav";
+
 import "./layout.css";
 
-export default function RouteWrapper(): ReactElement {
+export default function RouteWrapper() {
   return (
     <div className="layout-container">
+      {/* <SideNavbar /> */}
       <div className="main-content">
-        {/* <TopBar /> */}
         <div className="page-content">
           <Outlet />
         </div>
