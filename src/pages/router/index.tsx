@@ -1,12 +1,10 @@
-import { Suspense, lazy, ComponentType, JSX } from "react";
-import { useRoutes, Navigate } from "react-router-dom";
+import {Suspense, lazy, ComponentType, JSX} from "react";
+import {useRoutes, Navigate} from "react-router-dom";
 // import { useAuth } from '../contexts/AuthContext';
 
 import RouteWrapper from "../wrappers";
 import NotFound from "../NotFound";
 // import RouteWrapper from "../pages/wrappers";
-
-// ----------------------------------------------------------------------
 
 type LoadableProps = Record<string, unknown>;
 
@@ -32,15 +30,15 @@ export default function Router() {
     {
       path: "auth",
       children: [
-        { element: <Navigate to="/login" replace />, index: true },
+        {element: <Navigate to="/login" replace />, index: true},
         {
           path: "login",
           element: <Login />,
         },
-        // {
-        //   path: "sign-up",
-        //   element: <Register />,
-        // },
+        {
+          path: "register",
+          element: <Register />,
+        },
         // {
         //   path: 'forgot-password',
         //   element: <ForgotPassword />
@@ -55,10 +53,10 @@ export default function Router() {
         // </PrivateWrapper>
       ),
       children: [
-        { element: <Navigate to=" " replace />, index: true },
+        {element: <Navigate to=" " replace />, index: true},
         // { path: "home", element: <Dashboard /> },
 
-        { path: "*", element: <Navigate to="/404" replace /> },
+        {path: "*", element: <Navigate to="/404" replace />},
       ],
     },
 
@@ -72,15 +70,18 @@ export default function Router() {
       element: <Navigate to="/404" replace />,
       // index: true,
       children: [
-        { path: "404", element: <NotFound /> },
-        { path: "*", element: <Navigate to="/404" replace /> },
+        {path: "404", element: <NotFound />},
+        {path: "*", element: <Navigate to="/404" replace />},
       ],
     },
-    { path: "*", element: <Navigate to="/404" replace /> },
-    { path: "/", element: <Navigate to="/auth/login" replace /> },
+    {path: "*", element: <Navigate to="/404" replace />},
+    {path: "/", element: <Navigate to="/auth/login" replace />},
   ]);
 }
 
 // Pages
 
 const Login = Loadable(lazy(() => import("../../pages/auth/login/login")));
+const Register = Loadable(
+  lazy(() => import("../../pages/auth/register/register"))
+);
