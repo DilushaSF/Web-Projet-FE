@@ -1,5 +1,5 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "SF Pro Display", "SF Pro Text";
   line-height: 1.5;
   font-weight: 400;
 
@@ -24,10 +24,12 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  font-family: "SF Pro", "sans-serif";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* background-color: #000000 !important; */
+  color: #000000 !important;
+  /* font-family: var(--font-sf-pro); */
 }
 
 h1 {
