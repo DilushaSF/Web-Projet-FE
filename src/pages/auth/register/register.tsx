@@ -22,8 +22,13 @@ const bgImageStyle = {
 };
 
 const Login = () => {
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
   const [mobilePhone, setMobilePhone] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [eircode, setEircode] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -102,10 +107,10 @@ const Login = () => {
                       id="firstName"
                       type="text"
                       placeholder="John"
-                      value={mobilePhone}
+                      value={firstName}
                       onChange={(e) => {
                         setError(null);
-                        setMobilePhone(e.target.value);
+                        setFirstName(e.target.value);
                       }}
                       fullWidth
                       required
@@ -113,7 +118,7 @@ const Login = () => {
                       size="small"
                       InputProps={{
                         sx: {
-                          height: 40,
+                          height: 30,
                           fontSize: "0.875rem",
                         },
                       }}
@@ -131,11 +136,11 @@ const Login = () => {
                     <TextField
                       id="lastName"
                       type="text"
-                      placeholder="John"
-                      value={mobilePhone}
+                      placeholder="Wick"
+                      value={lastName}
                       onChange={(e) => {
                         setError(null);
-                        setMobilePhone(e.target.value);
+                        setLastName(e.target.value);
                       }}
                       fullWidth
                       required
@@ -143,7 +148,7 @@ const Login = () => {
                       size="small"
                       InputProps={{
                         sx: {
-                          height: 40,
+                          height: 30,
                           fontSize: "0.875rem",
                         },
                       }}
@@ -151,74 +156,65 @@ const Login = () => {
                   </Box>
                 </Box>
 
-                <Box
-                  sx={{
-                    display: "flex",
-                    gap: 2,
-                    marginBottom: 2,
-                  }}>
-                  {/* email */}
-                  <Box sx={{marginBottom: 2}}>
-                    <Typography
-                      component="label"
-                      htmlFor="email"
-                      sx={{display: "block"}}>
-                      Email
-                    </Typography>
-                    <TextField
-                      id="email"
-                      type="text"
-                      placeholder="name@example.com"
-                      value={mobilePhone}
-                      onChange={(e) => {
-                        setError(null);
-                        setMobilePhone(e.target.value);
-                      }}
-                      fullWidth
-                      required
-                      sx={{marginTop: 1}}
-                      size="small"
-                      InputProps={{
-                        sx: {
-                          height: 40,
-                          fontSize: "0.875rem",
-                        },
-                      }}
-                    />
-                  </Box>
-
-                  {/* eircode */}
-                  <Box sx={{flex: 1}}>
-                    <Typography
-                      component="label"
-                      htmlFor="eircode"
-                      sx={{display: "block"}}>
-                      Eircode
-                    </Typography>
-                    <TextField
-                      id="eircode"
-                      type="text"
-                      placeholder="D02 X285"
-                      value={mobilePhone}
-                      onChange={(e) => {
-                        setError(null);
-                        setMobilePhone(e.target.value);
-                      }}
-                      fullWidth
-                      required
-                      sx={{marginTop: 1}}
-                      size="small"
-                      InputProps={{
-                        sx: {
-                          height: 40,
-                          fontSize: "0.875rem",
-                        },
-                      }}
-                    />
-                  </Box>
+                {/* email */}
+                <Box sx={{marginBottom: 2}}>
+                  <Typography
+                    component="label"
+                    htmlFor="email"
+                    sx={{display: "block"}}>
+                    Email
+                  </Typography>
+                  <TextField
+                    id="email"
+                    type="text"
+                    placeholder="name@example.com"
+                    value={email}
+                    onChange={(e) => {
+                      setError(null);
+                      setEmail(e.target.value);
+                    }}
+                    fullWidth
+                    required
+                    sx={{marginTop: 1}}
+                    size="small"
+                    InputProps={{
+                      sx: {
+                        height: 30,
+                      },
+                    }}
+                  />
                 </Box>
 
                 {/* eircode */}
+                <Box sx={{flex: 1, marginBottom: 2}}>
+                  <Typography
+                    component="label"
+                    htmlFor="eircode"
+                    sx={{display: "block"}}>
+                    Eircode
+                  </Typography>
+                  <TextField
+                    id="eircode"
+                    type="text"
+                    placeholder="D02 X285"
+                    value={eircode}
+                    onChange={(e) => {
+                      setError(null);
+                      setEircode(e.target.value);
+                    }}
+                    fullWidth
+                    required
+                    sx={{marginTop: 1}}
+                    size="small"
+                    InputProps={{
+                      sx: {
+                        height: 30,
+                      },
+                    }}
+                  />
+                </Box>
+
+                {/* mobilePhone */}
                 <Box sx={{marginBottom: 2}}>
                   <Typography
                     component="label"
@@ -241,8 +237,7 @@ const Login = () => {
                     size="small"
                     InputProps={{
                       sx: {
-                        height: 40,
-                        fontSize: "0.875rem",
+                        height: 30,
                       },
                     }}
                   />
@@ -271,8 +266,7 @@ const Login = () => {
                     size="small"
                     InputProps={{
                       sx: {
-                        height: 40,
-                        fontSize: "0.875rem",
+                        height: 30,
                       },
                     }}
                   />
@@ -290,10 +284,10 @@ const Login = () => {
                     id="confirmPassword"
                     type="password"
                     placeholder="•••••••"
-                    value={password}
+                    value={confirmPassword}
                     onChange={(e) => {
                       setError(null);
-                      setPassword(e.target.value);
+                      setConfirmPassword(e.target.value);
                     }}
                     fullWidth
                     required
@@ -301,8 +295,7 @@ const Login = () => {
                     size="small"
                     InputProps={{
                       sx: {
-                        height: 40,
-                        fontSize: "0.875rem",
+                        height: 30,
                       },
                     }}
                   />
