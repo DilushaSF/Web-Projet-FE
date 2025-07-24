@@ -6,6 +6,7 @@ import {
   CardMedia,
   CardContent,
   Typography,
+  Box,
 } from "@mui/material";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -34,21 +35,23 @@ const HomePage = () => {
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       {/* Banner Section */}
-      <Slider {...sliderSettings}>
-        {SLIDER_IMAGES.map((image, index) => (
-          <div key={index}>
-            <Card sx={{ boxShadow: "none" }}>
-              <CardMedia
-                component="img"
-                height="360"
-                image={image}
-                alt={`carousel-image-${index}`}
-                sx={{ objectFit: "cover", borderRadius: 1 }}
-              />
-            </Card>
-          </div>
-        ))}
-      </Slider>
+      <Box mb={12}>
+        <Slider {...sliderSettings}>
+          {SLIDER_IMAGES.map((image, index) => (
+            <div key={index}>
+              <Card sx={{ boxShadow: "none" }}>
+                <CardMedia
+                  component="img"
+                  height="360"
+                  image={image}
+                  alt={`carousel-image-${index}`}
+                  sx={{ objectFit: "cover", borderRadius: 1 }}
+                />
+              </Card>
+            </div>
+          ))}
+        </Slider>
+      </Box>
 
       {/* Category Section */}
       <Typography
