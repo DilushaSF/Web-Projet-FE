@@ -50,8 +50,6 @@ const Login = () => {
           alignItems: "center",
           justifyContent: "center",
           padding: 8,
-          //   height: "100vh",
-          //   overflow: "hidden",
         }}
       >
         <Box
@@ -59,8 +57,6 @@ const Login = () => {
             maxWidth: 448,
             width: "100%",
             height: "100%",
-            // overflowY: "auto",
-            // paddingRight: 1,
           }}
         >
           <Box sx={{ textAlign: "center", mb: 3 }}>
@@ -120,11 +116,9 @@ const Login = () => {
                       fullWidth
                       required
                       sx={{ marginTop: 1 }}
-                      size="small"
                       InputProps={{
                         sx: {
                           height: 30,
-                          fontSize: "0.875rem",
                         },
                       }}
                     />
@@ -150,7 +144,6 @@ const Login = () => {
                       fullWidth
                       required
                       sx={{ marginTop: 1 }}
-                      size="small"
                       InputProps={{
                         sx: {
                           height: 30,
@@ -182,7 +175,6 @@ const Login = () => {
                     fullWidth
                     required
                     sx={{ marginTop: 1 }}
-                    size="small"
                     InputProps={{
                       sx: {
                         height: 30,
@@ -212,7 +204,6 @@ const Login = () => {
                     fullWidth
                     required
                     sx={{ marginTop: 1 }}
-                    size="small"
                     InputProps={{
                       sx: {
                         height: 30,
@@ -242,7 +233,6 @@ const Login = () => {
                     fullWidth
                     required
                     sx={{ marginTop: 1 }}
-                    size="small"
                     InputProps={{
                       sx: {
                         height: 30,
@@ -272,7 +262,6 @@ const Login = () => {
                     fullWidth
                     required
                     sx={{ marginTop: 1 }}
-                    size="small"
                     InputProps={{
                       sx: {
                         height: 30,
@@ -302,7 +291,6 @@ const Login = () => {
                     fullWidth
                     required
                     sx={{ marginTop: 1 }}
-                    size="small"
                     InputProps={{
                       sx: {
                         height: 30,
