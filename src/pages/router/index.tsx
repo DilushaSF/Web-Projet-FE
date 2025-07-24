@@ -1,5 +1,5 @@
-import {Suspense, lazy, ComponentType, JSX} from "react";
-import {useRoutes, Navigate} from "react-router-dom";
+import { Suspense, lazy, ComponentType, JSX } from "react";
+import { useRoutes, Navigate } from "react-router-dom";
 // import { useAuth } from '../contexts/AuthContext';
 
 import RouteWrapper from "../wrappers";
@@ -30,7 +30,7 @@ export default function Router() {
     {
       path: "auth",
       children: [
-        {element: <Navigate to="/login" replace />, index: true},
+        { element: <Navigate to="/login" replace />, index: true },
         {
           path: "login",
           element: <Login />,
@@ -53,10 +53,10 @@ export default function Router() {
         // </PrivateWrapper>
       ),
       children: [
-        {element: <Navigate to=" " replace />, index: true},
-        // { path: "home", element: <Dashboard /> },
+        { element: <Navigate to=" " replace />, index: true },
+        { path: "home", element: <HomePage /> },
 
-        {path: "*", element: <Navigate to="/404" replace />},
+        { path: "*", element: <Navigate to="/404" replace /> },
       ],
     },
 
@@ -70,12 +70,12 @@ export default function Router() {
       element: <Navigate to="/404" replace />,
       // index: true,
       children: [
-        {path: "404", element: <NotFound />},
-        {path: "*", element: <Navigate to="/404" replace />},
+        { path: "404", element: <NotFound /> },
+        { path: "*", element: <Navigate to="/404" replace /> },
       ],
     },
-    {path: "*", element: <Navigate to="/404" replace />},
-    {path: "/", element: <Navigate to="/auth/login" replace />},
+    { path: "*", element: <Navigate to="/404" replace /> },
+    { path: "/", element: <Navigate to="/auth/login" replace /> },
   ]);
 }
 
@@ -85,3 +85,4 @@ const Login = Loadable(lazy(() => import("../../pages/auth/login/login")));
 const Register = Loadable(
   lazy(() => import("../../pages/auth/register/register"))
 );
+const HomePage = Loadable(lazy(() => import("../../pages/dashboard/homePage")));
