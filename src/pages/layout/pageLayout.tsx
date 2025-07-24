@@ -1,5 +1,6 @@
 import React from "react";
 import { Box } from "@mui/material";
+import { Navbar } from "./Navbar";
 
 interface PageLayoutProps {
   children: React.ReactNode;
@@ -14,7 +15,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
         minHeight: "100vh",
       }}
     >
-      {/* <Navbar /> */}
+      <Navbar />
       <Box
         component="main"
         sx={{
