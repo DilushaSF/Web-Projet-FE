@@ -1,5 +1,5 @@
 import React from "react";
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import { Navbar } from "./Navbar";
 
 interface PageLayoutProps {
@@ -16,13 +16,11 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
       }}
     >
       <Navbar />
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-        }}
-      >
-        {children}
+      <Box component="main" sx={{ flexGrow: 1, mt: { xs: 8, sm: 9 } }}>
+        {/* Wrap children in a responsive container */}
+        <Container maxWidth="lg" sx={{ py: 4 }}>
+          {children}
+        </Container>
       </Box>
       {/* <Footer /> */}
     </Box>

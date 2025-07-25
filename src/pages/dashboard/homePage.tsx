@@ -11,6 +11,7 @@ import {
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import PageLayout from "../layout/pageLayout";
 
 const SLIDER_IMAGES = [
   "/images/slider_1.jpg",
@@ -77,8 +78,22 @@ const HomePage = () => {
     arrows: true,
   };
 
+  // const handleCategorySelect = (categoryId: any) => {
+  //   navigate(`/brand-selection?category=${categoryId}`);
+  // };
+
+  // Add a filter to filter categories by search
+  const filteredCategories = CATEGORIES.filter((category) => {
+    if (!searchParams.get("search")) return true;
+    const search = searchParams.get("search")?.toLowerCase() || "";
+    return (
+      category.name.toLowerCase().includes(search) ||
+      category.description.toLowerCase().includes(search)
+    );
+  });
+
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
+    <PageLayout>
       {/* Banner Section */}
       <Box mb={12}>
         {/* TODO: Fix slider arrow colors */}
@@ -108,7 +123,55 @@ const HomePage = () => {
       >
         Select a Category
       </Typography>
-    </Container>
+      <Grid container spacing={3}>
+        {filteredCategories.length > 0 ? (
+          filteredCategories.map((category) => (
+            <Grid item xs={12} sm={6} md={3} key={category.id}>
+              <Card
+                // TODO: Add on click function to nav card
+
+                sx={{
+                  cursor: "pointer",
+                  transition: "box-shadow 0.3s",
+                  "&:hover": { boxShadow: 4 },
+                }}
+              >
+                <CardMedia
+                  component="img"
+                  height="192"
+                  image={category.image}
+                  alt={category.name}
+                  sx={{
+                    objectFit: "cover",
+                    "&:hover": {
+                      transform: "scale(1.05)",
+                      transition: "transform 0.3s",
+                    },
+                  }}
+                />
+                <CardContent>
+                  <Typography
+                    variant="h6"
+                    sx={{ fontWeight: "bold", color: "#0A1E38" }}
+                  >
+                    {category.name}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {category.description}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))
+        ) : (
+          <Grid item xs={12}>
+            <Typography align="center" color="text.secondary">
+              No categories found.
+            </Typography>
+          </Grid>
+        )}
+      </Grid>
+    </PageLayout>
   );
 };
 
