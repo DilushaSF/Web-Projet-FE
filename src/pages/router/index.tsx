@@ -54,7 +54,7 @@ export default function Router() {
       ),
       children: [
         { element: <Navigate to=" " replace />, index: true },
-        { path: "home", element: <HomePage /> },
+        { path: "category-selection", element: <HomePage /> },
         { path: "brand-selection", element: <BrandSelection /> },
 
         { path: "*", element: <Navigate to="/404" replace /> },
