@@ -108,6 +108,12 @@ export const Navbar = () => {
                 <Typography sx={{ ml: 1 }}>My Orders</Typography>
               </Box>
             </Link>
+            <Link to="/profile" style={{ color: "white" }}>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <PersonIcon />
+                <Typography sx={{ ml: 1 }}>Account</Typography>
+              </Box>
+            </Link>
             {/* TODO: Check auth status for login and register */}
           </Box>
         </Toolbar>
@@ -143,31 +149,27 @@ export const Navbar = () => {
             </Button>
           </form>
 
+          {/* TODO: check links later */}
           <List>
-            <ListItem
-              button
-              component={Link}
-              to="/products"
-              onClick={toggleDrawer}
-            >
+            <ListItem component={Link} to="/products" onClick={toggleDrawer}>
               <ListItemText primary="All Products" sx={{ color: "white" }} />
             </ListItem>
-            <ListItem button component={Link} to="" onClick={toggleDrawer}>
+            <ListItem component={Link} to="" onClick={toggleDrawer}>
               <ListItemText primary="Piano" sx={{ color: "white" }} />
             </ListItem>
-            <ListItem button component={Link} to="" onClick={toggleDrawer}>
+            <ListItem component={Link} to="" onClick={toggleDrawer}>
               <ListItemText primary="Guitar" sx={{ color: "white" }} />
             </ListItem>
-            <ListItem button component={Link} to="" onClick={toggleDrawer}>
+            <ListItem component={Link} to="" onClick={toggleDrawer}>
               <ListItemText primary="Melodia" sx={{ color: "white" }} />
             </ListItem>
-            <ListItem button component={Link} to="" onClick={toggleDrawer}>
+            <ListItem component={Link} to="" onClick={toggleDrawer}>
               <ListItemText primary="Agon" sx={{ color: "white" }} />
             </ListItem>
 
             <Divider sx={{ bgcolor: "#145DA0", my: 1 }} />
 
-            <ListItem button component={Link} to="/cart" onClick={toggleDrawer}>
+            <ListItem component={Link} to="/cart" onClick={toggleDrawer}>
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <ShoppingCartIcon />
                 {/* TODO: Get total Items count */}
@@ -177,12 +179,7 @@ export const Navbar = () => {
 
             {/* TODO: check auth status */}
             <>
-              <ListItem
-                button
-                component={Link}
-                to="/account"
-                onClick={toggleDrawer}
-              >
+              <ListItem component={Link} to="/account" onClick={toggleDrawer}>
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <PersonIcon />
                   <Typography sx={{ ml: 1 }}>Account</Typography>
@@ -202,20 +199,10 @@ export const Navbar = () => {
             </>
 
             <>
-              <ListItem
-                button
-                component={Link}
-                to="/login"
-                onClick={toggleDrawer}
-              >
+              <ListItem component={Link} to="/login" onClick={toggleDrawer}>
                 <ListItemText primary="Login" sx={{ color: "white" }} />
               </ListItem>
-              <ListItem
-                button
-                component={Link}
-                to="/register"
-                onClick={toggleDrawer}
-              >
+              <ListItem component={Link} to="/register" onClick={toggleDrawer}>
                 <ListItemText primary="Register" sx={{ color: "#C39D63" }} />
               </ListItem>
             </>
