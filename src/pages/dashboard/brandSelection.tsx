@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import PageLayout from "../layout/pageLayout";
 import { Box, Card, CardContent, Button, Typography } from "@mui/material";
+import { categoryNames } from "../../utils/consts";
 // import { categoryNames } from "@/utils/consts";
 
 const BRANDS = [
@@ -58,6 +59,21 @@ const BrandSelection = () => {
       navigate("/home");
     }
   }, [location, navigate]);
+
+  const getCategoryName = () => {
+    return categoryId ? categoryNames[categoryId] || "Products" : "Products";
+  };
+
+  //filter brands by name or description search
+  const filteredBrands = BRANDS.filter((brand) => {
+    if (!searchParams.get("search")) return true;
+    const search = searchParams.get("search")?.toLowerCase() || "";
+    return (
+      brand.name.toLowerCase().includes(search) ||
+      brand.description?.toLowerCase().includes(search) ||
+      false
+    );
+  });
 
   return (
     <PageLayout>
