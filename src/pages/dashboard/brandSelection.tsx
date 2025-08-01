@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import PageLayout from "../layout/pageLayout";
-import { Box, Card, CardContent, Button, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Button,
+  Typography,
+  Grid,
+} from "@mui/material";
 import { categoryNames } from "../../utils/consts";
-// import { categoryNames } from "@/utils/consts";
 
 const BRANDS = [
   {
@@ -50,18 +56,22 @@ const BrandSelection = () => {
   const [searchParams] = useSearchParams();
   const [categoryId, setCategoryId] = useState<number | null>(null);
 
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const category = searchParams.get("category");
-    if (category) {
-      setCategoryId(parseInt(category, 10));
-    } else {
-      navigate("/home");
-    }
-  }, [location, navigate]);
+  //   useEffect(() => {
+  //     const searchParams = new URLSearchParams(location.search);
+  //     const category = searchParams.get("category");
+  //     if (category) {
+  //       setCategoryId(parseInt(category, 10));
+  //     } else {
+  //       navigate("/home");
+  //     }
+  //   }, [location, navigate]);
 
   const getCategoryName = () => {
     return categoryId ? categoryNames[categoryId] || "Products" : "Products";
+  };
+
+  const handleBrandSelect = (brandId: number) => {
+    navigate(`/products?category=${categoryId}&brand=${brandId}`);
   };
 
   //filter brands by name or description search
@@ -97,7 +107,7 @@ const BrandSelection = () => {
         >
           <Box sx={{ width: "100%", textAlign: "center" }}>
             <Typography sx={{ color: "#D3D3D3", mb: 1 }}>
-              Category:
+              Category: {getCategoryName()}
               <span style={{ fontWeight: "bold" }}>Show Category Name</span>
             </Typography>
             <Typography variant="h3" sx={{ color: "white", mb: 2 }}>
@@ -113,7 +123,7 @@ const BrandSelection = () => {
           fontWeight="bold"
           sx={{ color: "#0A1E38", mb: 4, textAlign: "center" }}
         >
-          Select a Brand for Show Category Name
+          Select a Brand for {getCategoryName()}
         </Typography>
 
         <Button
@@ -123,6 +133,44 @@ const BrandSelection = () => {
         >
           Back to Categories
         </Button>
+        <Grid container spacing={3}>
+          {filteredBrands.length === 0 ? (
+            <Grid item xs={12}>
+              <Typography align="center" sx={{ color: "#A0AEC0" }}>
+                No brands found
+              </Typography>
+            </Grid>
+          ) : (
+            filteredBrands.map((brand) => (
+              <Grid item xs={12} md={6} lg={3} key={brand.id}>
+                <Card
+                  sx={{ cursor: "pointer" }}
+                  onClick={() => handleBrandSelect(brand.id)}
+                >
+                  <Box sx={{ height: 192, overflow: "hidden" }}>
+                    <img
+                      src={brand.image}
+                      alt={brand.name}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "contain",
+                      }}
+                    />
+                  </Box>
+                  <CardContent sx={{ p: 2 }}>
+                    <Typography variant="h6" sx={{ color: "#0A1E38" }}>
+                      {brand.name}
+                    </Typography>
+                    <Typography sx={{ color: "#718096", mb: 2 }}>
+                      {brand.description}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))
+          )}
+        </Grid>
       </Box>
     </PageLayout>
   );
