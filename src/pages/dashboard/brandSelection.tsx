@@ -8,37 +8,37 @@ const BRANDS = [
   {
     id: 1,
     name: "Yamaha",
-    image: "/images/guitar.png",
+    image: "/images/yamaha_logo.jpg",
     description: "Sound. Style. Precision.",
   },
   {
     id: 2,
     name: "Fender",
-    image: "/images/guitar.png",
+    image: "/images/Fender_logo.png",
     description: "Iconic. Bold. Timeless",
   },
   {
     id: 3,
     name: "Gibson",
-    image: "/images/guitar.png",
+    image: "/images/gibson_logo.jpg",
     description: "Pure Tone. Legendary.",
   },
   {
     id: 4,
     name: "Casio",
-    image: "/images/guitar.png",
+    image: "/images/Casio_logo.jpg",
     description: "Digital Music Magic",
   },
   {
     id: 5,
     name: "Rockstar",
-    image: "/images/guitar.png",
+    image: "/images/rockstar_logo.png",
     description: "Loud. Wild. Free.",
   },
   {
     id: 6,
     name: "Roland",
-    image: "/images/guitar.png",
+    image: "/images/Roland_logo.jpg",
     description: "Innovative Sound Tools",
   },
 ];
