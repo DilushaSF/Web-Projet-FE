@@ -4,6 +4,45 @@ import PageLayout from "../layout/pageLayout";
 import { Box, Card, CardContent, Button, Typography } from "@mui/material";
 // import { categoryNames } from "@/utils/consts";
 
+const BRANDS = [
+  {
+    id: 1,
+    name: "Yamaha",
+    image: "/images/guitar.png",
+    description: "Sound. Style. Precision.",
+  },
+  {
+    id: 2,
+    name: "Fender",
+    image: "/images/guitar.png",
+    description: "Iconic. Bold. Timeless",
+  },
+  {
+    id: 3,
+    name: "Gibson",
+    image: "/images/guitar.png",
+    description: "Pure Tone. Legendary.",
+  },
+  {
+    id: 4,
+    name: "Casio",
+    image: "/images/guitar.png",
+    description: "Digital Music Magic",
+  },
+  {
+    id: 5,
+    name: "Rockstar",
+    image: "/images/guitar.png",
+    description: "Loud. Wild. Free.",
+  },
+  {
+    id: 6,
+    name: "Roland",
+    image: "/images/guitar.png",
+    description: "Innovative Sound Tools",
+  },
+];
+
 const BrandSelection = () => {
   const navigate = useNavigate();
 
@@ -29,22 +68,20 @@ const BrandSelection = () => {
         >
           <Box sx={{ width: "100%", textAlign: "center" }}>
             <Typography sx={{ color: "#D3D3D3", mb: 1 }}>
-              Category:{" "}
+              Category:
               <span style={{ fontWeight: "bold" }}>Show Category Name</span>
             </Typography>
             <Typography variant="h3" sx={{ color: "white", mb: 2 }}>
               Choose Your Brand
             </Typography>
-            <Typography sx={{ color: "#D3D3D3", maxWidth: 960, mx: "auto" }}>
-              Select from our collection of premium cricket brands
-            </Typography>
           </Box>
         </Box>
       </Box>
 
-      <Box sx={{ px: 4, py: 10 }}>
+      <Box sx={{ px: 4, pt: 2, pb: 5 }}>
         <Typography
-          variant="h4"
+          variant="h3"
+          fontWeight="bold"
           sx={{ color: "#0A1E38", mb: 4, textAlign: "center" }}
         >
           Select a Brand for Show Category Name
