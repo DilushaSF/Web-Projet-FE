@@ -12,3 +12,17 @@ export interface LoginParams {
     mobilePhone: string;
     password: string;
 }
+
+export interface AuthResponse {
+  data: {
+    accessToken: string;
+    user: {
+      id: string;
+      firstName: string;
+      lastName: string;
+      emailAddress: string;
+      mobilePhone: string;
+      eircode: string;
+    };
+  };
+}
