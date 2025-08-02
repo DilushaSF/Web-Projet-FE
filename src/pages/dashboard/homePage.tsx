@@ -78,9 +78,10 @@ const HomePage = () => {
     arrows: true,
   };
 
-  // const handleCategorySelect = (categoryId: any) => {
-  //   navigate(`/brand-selection?category=${categoryId}`);
-  // };
+  const handleCategorySelect = (categoryId: number) => {
+    navigate(`/dashboard/brand-selection?category=${categoryId}`);
+    console.log("IDDDD IS", categoryId);
+  };
 
   // Add a filter to filter categories by search
   const filteredCategories = CATEGORIES.filter((category) => {
@@ -128,8 +129,7 @@ const HomePage = () => {
           filteredCategories.map((category) => (
             <Grid item xs={12} sm={6} md={3} key={category.id}>
               <Card
-                // TODO: Add on click function to nav card
-
+                onClick={() => handleCategorySelect(category.id)}
                 sx={{
                   cursor: "pointer",
                   transition: "box-shadow 0.3s",

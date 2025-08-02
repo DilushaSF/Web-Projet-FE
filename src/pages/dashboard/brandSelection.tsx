@@ -71,13 +71,15 @@ const BrandSelection = () => {
   };
 
   const handleBrandSelect = (brandId: number) => {
-    navigate(`/products?category=${categoryId}&brand=${brandId}`);
+    navigate(`/dashboard/products?category=${categoryId}&brand=${brandId}`);
   };
 
   //filter brands by name or description search
   const filteredBrands = BRANDS.filter((brand) => {
     if (!searchParams.get("search")) return true;
     const search = searchParams.get("search")?.toLowerCase() || "";
+    console.log("Brandssss", filteredBrands);
+    console.log("Searchhhh", search);
     return (
       brand.name.toLowerCase().includes(search) ||
       brand.description?.toLowerCase().includes(search) ||
@@ -129,7 +131,7 @@ const BrandSelection = () => {
         <Button
           variant="outlined"
           sx={{ borderColor: "#0A1E38", color: "#0A1E38", mb: 4 }}
-          onClick={() => navigate("/category-selection")}
+          onClick={() => navigate("/dashboard/category-selection")}
         >
           Back to Categories
         </Button>
