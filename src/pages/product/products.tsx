@@ -3,15 +3,15 @@ import { useLocation, useNavigate } from "react-router-dom";
 import PageLayout from "../layout/pageLayout";
 import { Button, Box, Typography } from "@mui/material";
 import type { Product } from "../context/cartContext";
-// import { getByProductsFilter } from "@/services/productService";
 import { useSearchParams } from "react-router-dom";
 import { ProductGrid } from "../../components/productGrid";
 import { brandNames, categoryNames } from "../../utils/consts";
+import { getByProductsFilter } from "../../services/productService";
 
 const Products = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const [categoryId, setCategoryId] = useState<number | null>(null);
@@ -21,17 +21,28 @@ const Products = () => {
   const category = searchParams.get("category");
   const brand = searchParams.get("brand");
 
-  // Fetch products from API
   useEffect(() => {
     const fetchProducts = async () => {
       setIsLoading(true);
       try {
         const data = await getByProductsFilter(
           category ? parseInt(category, 10) : 0,
-          brand ? parseInt(brand, 10) : 0,
-          0
+          brand ? parseInt(brand, 10) : 0
         );
-        setFilteredProducts(data);
+
+        const transformedData: Product[] = data.map((item: any) => ({
+          productId: item.id || item.productId,
+          productName: item.name || item.productName,
+          price: item.price,
+          productCategory: item.category || item.productCategory,
+          productBrand: item.brand || item.productBrand,
+          description: item.description || "No description available",
+          size: item.size,
+          weight: item.weight,
+          images: item.images,
+          productStyle: item.style || item.productStyle,
+        }));
+        setFilteredProducts(transformedData);
       } catch (error) {
         console.error("Failed to fetch products:", error);
         setFilteredProducts([]);
