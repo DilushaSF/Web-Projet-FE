@@ -21,6 +21,28 @@ const Products = () => {
   const category = searchParams.get("category");
   const brand = searchParams.get("brand");
 
+  // Fetch products from API
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setIsLoading(true);
+      try {
+        const data = await getByProductsFilter(
+          category ? parseInt(category, 10) : 0,
+          brand ? parseInt(brand, 10) : 0,
+          0
+        );
+        setFilteredProducts(data);
+      } catch (error) {
+        console.error("Failed to fetch products:", error);
+        setFilteredProducts([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [category, brand]);
+
   return (
     <PageLayout>
       <Box
