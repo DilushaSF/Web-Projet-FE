@@ -1,16 +1,25 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import PageLayout from "../layout/pageLayout";
-// import { ProductGrid } from "@/components/product/ProductGrid";
 import { Button, Box, Typography } from "@mui/material";
-// import { Product } from "@/contexts/CartContext";
+import type { Product } from "../context/cartContext";
 // import { getByProductsFilter } from "@/services/productService";
 import { useSearchParams } from "react-router-dom";
-// import { categoryNames, brandNames } from "@/utils/consts";
+import { ProductGrid } from "../../components/productGrid";
+import { brandNames, categoryNames } from "../../utils/consts";
 
 const Products = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const [categoryId, setCategoryId] = useState<number | null>(null);
+  const [brandId, setBrandId] = useState<number | null>(null);
+
+  const [searchParams] = useSearchParams();
+  const category = searchParams.get("category");
+  const brand = searchParams.get("brand");
 
   return (
     <PageLayout>
@@ -84,7 +93,10 @@ const Products = () => {
           </Typography>
         </Box>
 
-        {/* TODO: Add Table */}
+        {/* <ProductGrid
+        //   products={filteredProductData || []}
+          isLoading={isLoading}
+        /> */}
       </Box>
     </PageLayout>
   );
