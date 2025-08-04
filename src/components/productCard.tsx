@@ -32,7 +32,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         {/* TODO: check image URL changed */}
         <CardMedia
           component="img"
-          image={product?.images?.[0] || "/placeholder.svg"}
+          //   image={product?.images?.[0] || "/placeholder.svg"}
+          image="/images/gibson_logo.jpg"
           alt={product?.productName}
           sx={{
             aspectRatio: "1/1",
