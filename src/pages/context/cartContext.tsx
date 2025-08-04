@@ -2,12 +2,12 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 
 // Product type
 export type Product = {
-  productId: string;
+  productId?: string;
   productName: string;
   price: number;
   productCategory: number;
   productBrand: number;
-  description: string;
+  description?: string;
   size?: string;
   weight?: string;
   images?: string[];
