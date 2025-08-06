@@ -13,8 +13,9 @@ import {
 import type {
   User,
 } from "../../services/userService";
+import { useSnackbar } from "notistack";
 
-// Define types
+// Auth Types
 type AuthContextType = {
   user: User | null;
   login: (credentials: LoginParams) => Promise<void>;
@@ -28,11 +29,10 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  // Ensure that useState is being used correctly
   const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  //const { toast } = useToast();
+  const { enqueueSnackbar } = useSnackbar();
 
   // Check for stored user on component mount
   useEffect(() => {
@@ -51,46 +51,25 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, []);
 
-  // Login mutation
-  const loginMutation = useMutation({
-    mutationFn: loginService,
-    onSuccess: (data) => {
-      toast("Login successful", {
-        description: "Welcome back!",
-      });
-      setUser(data?.data?.user);
-      setIsAuthenticated(true);
-      localStorage.setItem("token", data?.data?.accessToken);
-      localStorage.setItem("user", JSON.stringify(data?.data?.user));
-      window.location.href = "/category-selection";
-    },
-    onError: () => {
-      // Handle error here
-      toast("Invalid credentials", {
-        description: "Please check your mobile phone and password.",
-      });
-    },
-  });
-
-  // Register mutation
-  const registerMutation = useMutation({
-    mutationFn: signupService,
-    onSuccess: () => {
-      toast("Registration successful", {
-        description: "You can now log in with your credentials.",
-      });
-      window.location.href = "/login"; // Redirect to login after successful registration
-    },
-    onError: () => {
-      toast("error");
-    },
-  });
-
   // Login function
   const login = async (credentials: LoginParams) => {
     setIsLoading(true);
     try {
-      await loginMutation.mutateAsync(credentials);
+      const data = await loginService(credentials);
+      console.log("dataaa", data);
+      enqueueSnackbar("Login successful", {
+        variant: "success",
+      });
+      setUser(data?.data?.user);
+
+      setIsAuthenticated(true);
+      localStorage.setItem("token", data?.data?.accessToken);
+      localStorage.setItem("user", JSON.stringify(data?.data?.user));
+      window.location.href = "/category-selection";
+    } catch (error) {
+      enqueueSnackbar("Invalid credentials", {
+        variant: "error",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -100,19 +79,27 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const register = async (userData: SignupParams) => {
     setIsLoading(true);
     try {
-      await registerMutation.mutateAsync(userData);
+      await signupService(userData);
+      console.log("userData", userData);
+      enqueueSnackbar("Registration successful", {
+        variant: "success",
+      });
+      window.location.href = "/login";
+    } catch (error) {
+      enqueueSnackbar("Registration failed", {
+        variant: "error",
+      });
     } finally {
       setIsLoading(false);
     }
   };
-
   // Logout function
   const logout = () => {
     setUser(null);
     setIsAuthenticated(false);
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    window.location.href = "/login"; // Redirect to login after logout
+    window.location.href = "/login";
   };
 
   return (
