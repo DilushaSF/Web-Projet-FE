@@ -12,7 +12,7 @@ const Products = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [filteredProducts, setFilteredProducts] = useState<Product[]>();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const [brandId, setBrandId] = useState<number | null>(null);
@@ -29,6 +29,7 @@ const Products = () => {
           category ? parseInt(category, 10) : 0,
           brand ? parseInt(brand, 10) : 0
         );
+        console.log("dataaaa", data);
 
         const transformedData: Product[] = data.map((item: any) => ({
           productId: item.id || item.productId,
@@ -42,7 +43,10 @@ const Products = () => {
           images: item.images,
           productStyle: item.style || item.productStyle,
         }));
+        console.log("dataaaa1", transformedData);
+
         setFilteredProducts(transformedData);
+        console.log("dataaaa2", transformedData);
       } catch (error) {
         console.error("Failed to fetch products:", error);
         setFilteredProducts([]);
@@ -64,7 +68,7 @@ const Products = () => {
     if (brand) setBrandId(parseInt(brand, 10));
 
     if (!category && !brand) {
-      navigate("/category-selection");
+      navigate("/dashboard/category-selection");
     }
   }, [location, navigate]);
 
@@ -107,11 +111,10 @@ const Products = () => {
         >
           <Box sx={{ width: "100%", textAlign: "center" }}>
             <Typography variant="h3" sx={{ color: "white", mb: 2 }}>
-              {/* {getCategoryName()} */}
+              {getCategoryName()}
             </Typography>
             <Typography sx={{ color: "#D3D3D3", maxWidth: 960, mx: "auto" }}>
-              {/* Browse our selection of {getBrandName()} {getCategoryName()}{" "} */}
-              players
+              Browse our selection of {getBrandName()} {getCategoryName()}{" "}
             </Typography>
             <Box
               sx={{ display: "flex", justifyContent: "center", mt: 4, gap: 2 }}
@@ -122,7 +125,7 @@ const Products = () => {
                   color: "black",
                   "&:hover": { bgcolor: "#A67B3D" },
                 }}
-                onClick={() => navigate("/category-selection")}
+                onClick={() => navigate("/dashboard/category-selection")}
               >
                 Change Category
               </Button>
@@ -150,10 +153,10 @@ const Products = () => {
       <Box sx={{ px: 4, py: 8 }}>
         <Box sx={{ mb: 4 }}>
           <Typography variant="h5" sx={{ color: "#0A1E38", mb: 1 }}>
-            {/* {getCategoryName()} - {getBrandName()} */}
+            {getCategoryName()} - {getBrandName()}
           </Typography>
           <Typography sx={{ color: "#718096" }}>
-            {/* {filteredProducts.length} products found */}
+            {filteredProducts?.length} products found
           </Typography>
         </Box>
 

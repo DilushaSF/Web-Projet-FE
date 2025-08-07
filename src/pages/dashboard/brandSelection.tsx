@@ -56,15 +56,15 @@ const BrandSelection = () => {
   const [searchParams] = useSearchParams();
   const [categoryId, setCategoryId] = useState<number | null>(null);
 
-  //   useEffect(() => {
-  //     const searchParams = new URLSearchParams(location.search);
-  //     const category = searchParams.get("category");
-  //     if (category) {
-  //       setCategoryId(parseInt(category, 10));
-  //     } else {
-  //       navigate("/home");
-  //     }
-  //   }, [location, navigate]);
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const category = searchParams.get("category");
+    if (category) {
+      setCategoryId(parseInt(category, 10));
+    } else {
+      navigate("/dashboard/category-selection");
+    }
+  }, [location, navigate]);
 
   const getCategoryName = () => {
     return categoryId ? categoryNames[categoryId] || "Products" : "Products";

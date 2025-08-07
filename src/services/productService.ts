@@ -29,7 +29,8 @@ export const getByProductsFilter = async (
   productBrand: number
 ): Promise<Product[]> => {
   const response = await axiosInstance.get(
-    `/products/get/filter?productCategory=${productCategory}&productBrand=${productBrand}`
+    `/products?productCategory=${productCategory}&productBrand=${productBrand}`
   );
+  console.log("res dataa", response.data);
   return response.data?.data?.products || [];
 };
