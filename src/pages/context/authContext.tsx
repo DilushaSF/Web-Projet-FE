@@ -1,18 +1,12 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { useMutation } from "@tanstack/react-query";
-//import { useToast } from "@/hooks/use-toast";
 
-
-import { toast } from "sonner";
 import {
   login as loginService,
   signup as signupService,
   type LoginParams,
   type SignupParams,
 } from "../../services/authService";
-import type {
-  User,
-} from "../../services/userService";
+import type { User } from "../../services/userService";
 import { useSnackbar } from "notistack";
 
 // Auth Types
