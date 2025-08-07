@@ -1,5 +1,11 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 
+interface Image {
+  id: string;
+  url: string;
+  createdAt: string;
+  updatedAt: string;
+}
 // Product type
 export type Product = {
   productId?: string;
@@ -10,7 +16,7 @@ export type Product = {
   description?: string;
   size?: string;
   weight?: string;
-  images?: string[];
+  images?: Image[];
   productStyle?: number;
 };
 

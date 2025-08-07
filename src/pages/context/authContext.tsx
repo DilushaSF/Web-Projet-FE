@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     if (token === "undefined" || storedUser === "undefined") {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
-      window.location.href = "/login";
+      window.location.href = "/auth/login";
     }
 
     if (storedUser && token) {
@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setIsAuthenticated(true);
       localStorage.setItem("token", data?.data?.accessToken);
       localStorage.setItem("user", JSON.stringify(data?.data?.user));
-      window.location.href = "/category-selection";
+      window.location.href = "/dashboard/category-selection";
     } catch (error) {
       enqueueSnackbar("Invalid credentials", {
         variant: "error",
