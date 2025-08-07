@@ -30,19 +30,19 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         }}
       >
         {/* TODO: check image URL changed */}
-        <CardMedia
-          component="img"
-          //   image={product?.images?.[0] || "/placeholder.svg"}
-          image="/images/gibson_logo.jpg"
-          alt={product?.productName}
-          sx={{
-            aspectRatio: "1/1",
-            overflow: "hidden",
-            bgcolor: "#F5F5F5",
-            "&:hover": { transform: "scale(1.05)" },
-            transition: "transform 0.3s",
-          }}
-        >
+        <Box sx={{ position: "relative" }}>
+          <CardMedia
+            component="img"
+            image={product?.images?.[0]?.url || "/placeholder.svg"}
+            alt={product?.productName}
+            sx={{
+              aspectRatio: "1/1",
+              overflow: "hidden",
+              bgcolor: "#F5F5F5",
+              "&:hover": { transform: "scale(1.05)" },
+              transition: "transform 0.3s",
+            }}
+          />
           <Box
             sx={{
               position: "absolute",
@@ -64,7 +64,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               {categoryName?.toUpperCase()}
             </Typography>
           </Box>
-        </CardMedia>
+        </Box>
 
         <CardContent
           sx={{ flexGrow: 1, p: 2, display: "flex", flexDirection: "column" }}
