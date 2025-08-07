@@ -54,6 +54,37 @@ const Products = () => {
     fetchProducts();
   }, [category, brand]);
 
+  // Parse query parameters
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const category = searchParams.get("category");
+    const brand = searchParams.get("brand");
+
+    if (category) setCategoryId(parseInt(category, 10));
+    if (brand) setBrandId(parseInt(brand, 10));
+
+    if (!category && !brand) {
+      navigate("/category-selection");
+    }
+  }, [location, navigate]);
+
+  const getCategoryName = () => {
+    return categoryId
+      ? categoryNames[categoryId] || "Products"
+      : "All Products";
+  };
+
+  const getBrandName = () => {
+    return brandId ? brandNames[brandId] || "All Brands" : "All Brands";
+  };
+
+  const filteredProductData = filteredProducts?.filter((product) => {
+    if (!searchParams.get("search")) return true;
+
+    const search = searchParams.get("search")?.toLowerCase() || "";
+    return product.productName.toLowerCase().includes(search);
+  });
+
   return (
     <PageLayout>
       <Box
@@ -126,10 +157,10 @@ const Products = () => {
           </Typography>
         </Box>
 
-        {/* <ProductGrid
-        //   products={filteredProductData || []}
+        <ProductGrid
+          products={filteredProductData || []}
           isLoading={isLoading}
-        /> */}
+        />
       </Box>
     </PageLayout>
   );
