@@ -1,7 +1,6 @@
 import axios from "axios";
 
-// Base URL should be updated based on your API endpoint
-const baseURL = "http://localhost:3200"; // Replace with your actual API URL
+const baseURL = "http://localhost:3200";
 
 const axiosInstance = axios.create({
   baseURL,
@@ -31,7 +30,7 @@ axiosInstance.interceptors.response.use(
       localStorage.removeItem("token");
       localStorage.removeItem("user");
       // Redirect to login page
-      window.location.href = "/login";
+      window.location.href = "/auth/login";
     }
     return Promise.reject(error);
   }
