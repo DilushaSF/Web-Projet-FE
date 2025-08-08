@@ -78,6 +78,44 @@ useEffect(() => {
       setIsLoading(false);
     }
   };
+
+   // password update form submission
+  const PasswordUpdate = async (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+
+    if (newPassword !== confirmPassword) {
+      setError('New password and confirmation do not match');
+      enqueueSnackbar('New password and confirmation do not match', { variant: 'error' });
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const updatedUser = await updateUser({
+        firstName,
+        lastName,
+        emailAddress,
+        eircode,
+        oldPassword,
+        password: newPassword,
+      });
+
+      enqueueSnackbar('Password updated successfully', { variant: 'success',anchorOrigin: { vertical: 'top', horizontal: 'right' } });
+      
+      // Clear password fields
+      setOldPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
+    } catch (err) {
+      console.error("Error updating password:", err);
+      setError('Failed to update password');
+      enqueueSnackbar('Failed to update password', { variant: 'error' });
+    } finally {
+      setIsLoading(false);
+    }
+  };
   
   return (
     <PageLayout>
@@ -200,6 +238,7 @@ useEffect(() => {
           <Card>
             <CardContent>
               <form
+                onSubmit={PasswordUpdate}
                 style={{ display: "flex", flexDirection: "column", gap: 2 }}
               >
                 <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
