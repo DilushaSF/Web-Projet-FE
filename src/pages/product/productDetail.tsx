@@ -15,7 +15,6 @@ import PageLayout from "../layout/pageLayout";
 import { useCart } from "../context/cartContext";
 import { getProductById } from "../../services/productService";
 import { categoryNames, brandNames } from "../../utils/consts";
-import type { Product } from "../context/cartContext";
 import { useQuery } from "@tanstack/react-query";
 import { useSnackbar } from "notistack";
 
@@ -38,7 +37,6 @@ const ProductDetail = () => {
   });
   console.log("id isss", id);
   const [tab, setTab] = useState("description");
-  //   const [showSnackbar, setShowSnackbar] = useState(false);
 
   const handleAddToCart = () => {
     if (product) {
