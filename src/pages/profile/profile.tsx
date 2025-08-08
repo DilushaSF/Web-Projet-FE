@@ -13,7 +13,7 @@ import {
   Grid,
 } from "@mui/material";
 import { useSnackbar } from "notistack";
-
+import { updateUser } from "../../services/userService";
 // TODO: Use useAuth hook to check auth status
 
 const Profile = () => {
@@ -37,9 +37,11 @@ const Profile = () => {
 
 useEffect(() => {
   const storedUser = localStorage.getItem("user");
+ 
   if (storedUser) {
     try {
       const userObj = JSON.parse(storedUser);
+   
       setFirstName(userObj.firstName || "");
       setLastName(userObj.lastName || "");
       setEmailAddress(userObj.emailAddress || "");
@@ -50,6 +52,32 @@ useEffect(() => {
     }
   }
 }, []);
+
+// profile update form submission
+  const ProfileUpdate = async (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const updatedUser = await updateUser({
+        firstName,
+        lastName,
+        emailAddress,
+        eircode,
+      });
+
+      // Update localStorage with new data
+      localStorage.setItem('user', JSON.stringify(updatedUser.data.user));
+      enqueueSnackbar('Profile updated successfully', { variant: 'success' });
+    } catch (err) {
+      console.error("Error updating profile:", err);
+      setError('Failed to update profile');
+      enqueueSnackbar('Failed to update profile', { variant: 'error' });
+    } finally {
+      setIsLoading(false);
+    }
+  };
   
   return (
     <PageLayout>
@@ -84,6 +112,7 @@ useEffect(() => {
           <Card>
             <CardContent>
               <form
+               onSubmit={ProfileUpdate}
                 style={{ display: "flex", flexDirection: "column", gap: 2 }}
               >
                 <Grid container spacing={2}>

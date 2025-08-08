@@ -108,7 +108,7 @@ export const Navbar = () => {
                 <Typography sx={{ ml: 1 }}>My Orders</Typography>
               </Box>
             </Link>
-            <Link to="/profile" style={{ color: "white" }}>
+            <Link to="/dashboard/profile" style={{ color: "white" }}>
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <PersonIcon />
                 <Typography sx={{ ml: 1 }}>Account</Typography>
