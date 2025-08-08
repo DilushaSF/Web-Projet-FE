@@ -2,11 +2,11 @@ import axiosInstance from "../lib/axios";
 
 // Types
 export interface Product {
-  prductId: string;
+  productId: string;
   productName: string;
   productCategory: number;
   productBrand: number;
-  productStyle?: number;
+  productStyle: number;
   price: number;
   productDescription: string;
   weight: number;
@@ -24,12 +24,18 @@ export interface BrandType {
   name: string;
 }
 
+export const getProductById = async (productId: string): Promise<Product> => {
+  const response = await axiosInstance.get(`/products/${productId}`);
+  console.log("resss dataaa", response.data.data.product);
+  return response.data.data.product;
+};
+
 export const getByProductsFilter = async (
   productCategory: number,
   productBrand: number
 ): Promise<Product[]> => {
   const response = await axiosInstance.get(
-    `/products?productCategory=${productCategory}&productBrand=${productBrand}`
+    `/products/get/filter?productCategory=${productCategory}&productBrand=${productBrand}`
   );
   console.log("res dataa", response.data);
   return response.data?.data?.products || [];
