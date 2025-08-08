@@ -58,7 +58,7 @@ export default function Router() {
         { path: "brand-selection", element: <BrandSelection /> },
         { path: "products", element: <Products /> },
         { path: "product/:id", element: <ProductDetail /> },
-        { path: "cart", element: <Cart /> },
+        // { path: "cart", element: <Cart /> },
 
         { path: "profile", element: <Profile /> },
         { path: "*", element: <Navigate to="/404" replace /> },
