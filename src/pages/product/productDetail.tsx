@@ -45,7 +45,6 @@ const ProductDetail = () => {
 
       enqueueSnackbar(`Added ${product.productName} to cart!`, {
         variant: "success",
-        autoHideDuration: 3000,
         anchorOrigin: { vertical: "top", horizontal: "right" },
       });
     }
