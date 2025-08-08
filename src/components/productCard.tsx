@@ -14,7 +14,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   return (
     <Link
-      to={`/product/${product.productId}`}
+      to={`/dashboard/product/${product.productId}`}
       style={{ textDecoration: "none" }}
     >
       <Card
@@ -33,6 +33,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <Box sx={{ position: "relative" }}>
           <CardMedia
             component="img"
+            // @ts-ignore
             image={product?.images?.[0]?.url || "/placeholder.svg"}
             alt={product?.productName}
             sx={{
