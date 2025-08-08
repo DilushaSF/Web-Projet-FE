@@ -160,7 +160,74 @@ const Profile = () => {
 
         {activeView === "password" && (
           <Card>
-  
+            <CardHeader>
+              {/* <CardTitle>Change Password</CardTitle> */}
+              {/* <CardDescription>Update your password</CardDescription> */}
+            </CardHeader>
+            <CardContent>
+              {/* TODO: handle handle password change inside form */}
+              <form
+                style={{ display: "flex", flexDirection: "column", gap: 2 }}
+              >
+                <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+                  <Typography component="label" htmlFor="oldPassword">
+                    Old Password
+                  </Typography>
+                  <TextField
+                    id="oldPassword"
+                    type="password"
+                    value={oldPassword}
+                    onChange={(e) => {
+                      setError(null);
+                      setOldPassword(e.target.value);
+                    }}
+                    required
+                  />
+                </Box>
+                <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+                  <Typography component="label" htmlFor="newPassword">
+                    New Password
+                  </Typography>
+                  <TextField
+                    id="newPassword"
+                    type="password"
+                    value={newPassword}
+                    onChange={(e) => {
+                      setError(null);
+                      setNewPassword(e.target.value);
+                    }}
+                    required
+                  />
+                </Box>
+                <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+                  <Typography component="label" htmlFor="confirmPassword">
+                    Confirm New Password
+                  </Typography>
+                  <TextField
+                    id="confirmPassword"
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => {
+                      setError(null);
+                      setConfirmPassword(e.target.value);
+                    }}
+                    required
+                  />
+                </Box>
+                {error && (
+                  <Typography sx={{ color: "#EF4444", fontSize: 12 }}>
+                    {error}
+                  </Typography>
+                )}
+                <Button
+                  type="submit"
+                  sx={{ bgcolor: "#0A1E38", color: "white", mt: 2 }}
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Updating..." : "Change Password"}
+                </Button>
+              </form>
+            </CardContent>
           </Card>
         )}
 
