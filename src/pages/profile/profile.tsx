@@ -35,26 +35,26 @@ const Profile = () => {
   const [mobilePhone, setMobilePhone] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-useEffect(() => {
-  const storedUser = localStorage.getItem("user");
- 
-  if (storedUser) {
-    try {
-      const userObj = JSON.parse(storedUser);
-   
-      setFirstName(userObj.firstName || "");
-      setLastName(userObj.lastName || "");
-      setEmailAddress(userObj.emailAddress || "");
-      setEircode(userObj.eircode || "");
-      setMobilePhone(userObj.mobilePhone || "");
-    } catch (err) {
-      console.error("Error parsing user from localStorage", err);
-    }
-  }
-}, []);
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
 
-// profile update form submission
-  const ProfileUpdate = async (e: { preventDefault: () => void; }) => {
+    if (storedUser) {
+      try {
+        const userObj = JSON.parse(storedUser);
+
+        setFirstName(userObj.firstName || "");
+        setLastName(userObj.lastName || "");
+        setEmailAddress(userObj.emailAddress || "");
+        setEircode(userObj.eircode || "");
+        setMobilePhone(userObj.mobilePhone || "");
+      } catch (err) {
+        console.error("Error parsing user from localStorage", err);
+      }
+    }
+  }, []);
+
+  // profile update form submission
+  const ProfileUpdate = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
@@ -68,26 +68,34 @@ useEffect(() => {
       });
 
       // Update localStorage with new data
-      localStorage.setItem('user', JSON.stringify(updatedUser.data.user));
-      enqueueSnackbar('Profile updated successfully', { variant: 'success' });
+      localStorage.setItem("user", JSON.stringify(updatedUser.data.user));
+      enqueueSnackbar("Profile updated successfully", {
+        variant: "success",
+        anchorOrigin: { vertical: "top", horizontal: "right" },
+      });
     } catch (err) {
       console.error("Error updating profile:", err);
-      setError('Failed to update profile');
-      enqueueSnackbar('Failed to update profile', { variant: 'error' });
+
+      enqueueSnackbar("Failed to update profile", {
+        variant: "error",
+        anchorOrigin: { vertical: "top", horizontal: "right" },
+      });
     } finally {
       setIsLoading(false);
     }
   };
 
-   // password update form submission
-  const PasswordUpdate = async (e: { preventDefault: () => void; }) => {
+  // password update form submission
+  const PasswordUpdate = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
 
     if (newPassword !== confirmPassword) {
-      setError('New password and confirmation do not match');
-      enqueueSnackbar('New password and confirmation do not match', { variant: 'error' });
+      enqueueSnackbar("New password and confirmation do not match", {
+        variant: "error",
+        anchorOrigin: { vertical: "top", horizontal: "right" },
+      });
       setIsLoading(false);
       return;
     }
@@ -102,21 +110,27 @@ useEffect(() => {
         password: newPassword,
       });
 
-      enqueueSnackbar('Password updated successfully', { variant: 'success',anchorOrigin: { vertical: 'top', horizontal: 'right' } });
-      
+      enqueueSnackbar("Password updated successfully", {
+        variant: "success",
+        anchorOrigin: { vertical: "top", horizontal: "right" },
+      });
+
       // Clear password fields
-      setOldPassword('');
-      setNewPassword('');
-      setConfirmPassword('');
+      setOldPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
     } catch (err) {
       console.error("Error updating password:", err);
-      setError('Failed to update password');
-      enqueueSnackbar('Failed to update password', { variant: 'error' });
+
+      enqueueSnackbar("Failed to update password", {
+        variant: "error",
+        anchorOrigin: { vertical: "top", horizontal: "right" },
+      });
     } finally {
       setIsLoading(false);
     }
   };
-  
+
   return (
     <PageLayout>
       <Box sx={{ maxWidth: 1024, mx: "auto", px: 4, py: 8 }}>
@@ -150,7 +164,7 @@ useEffect(() => {
           <Card>
             <CardContent>
               <form
-               onSubmit={ProfileUpdate}
+                onSubmit={ProfileUpdate}
                 style={{ display: "flex", flexDirection: "column", gap: 2 }}
               >
                 <Grid container spacing={2}>
