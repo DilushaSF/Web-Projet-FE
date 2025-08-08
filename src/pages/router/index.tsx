@@ -56,6 +56,9 @@ export default function Router() {
         { element: <Navigate to=" " replace />, index: true },
         { path: "category-selection", element: <HomePage /> },
         { path: "brand-selection", element: <BrandSelection /> },
+        { path: "products", element: <Products /> },
+        { path: "product/:id", element: <ProductDetail /> },
+
         { path: "profile", element: <Profile /> },
         { path: "*", element: <Navigate to="/404" replace /> },
       ],
@@ -89,6 +92,10 @@ const Register = Loadable(
 const HomePage = Loadable(lazy(() => import("../../pages/dashboard/homePage")));
 const BrandSelection = Loadable(
   lazy(() => import("../../pages/dashboard/brandSelection"))
+);
+const Products = Loadable(lazy(() => import("../../pages/product/products")));
+const ProductDetail = Loadable(
+  lazy(() => import("../../pages/product/productDetail"))
 );
 const Profile = Loadable(lazy(() => import("../../pages/profile/profile")));
 

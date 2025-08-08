@@ -1,17 +1,22 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 
+// interface Image {
+//   id: string;
+//   url: string;
+//   createdAt: string;
+//   updatedAt: string;
+// }
 // Product type
 export type Product = {
-  productId: string;
+  productId?: string;
   productName: string;
   price: number;
   productCategory: number;
   productBrand: number;
-  description: string;
+  description?: string;
   size?: string;
   weight?: string;
   images?: string[];
-  productStyle?: number;
 };
 
 // Cart Item type

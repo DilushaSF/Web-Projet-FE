@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 import {
@@ -13,6 +13,7 @@ import {
   Grid,
 } from "@mui/material";
 import LoginImage from "../../../assets/images/login_image.webp";
+import { useAuth } from "../../context/authContext";
 
 const bgImageStyle = {
   backgroundImage: `url(${LoginImage})`,
@@ -24,8 +25,30 @@ const Login = () => {
   const [mobilePhone, setMobilePhone] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const { login, isAuthenticated, isLoading } = useAuth();
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/dashboard/category-selection");
+    }
+  }, [isAuthenticated, navigate]);
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
+    if (!mobilePhone || !password) {
+      return;
+    }
+
+    try {
+      await login({ mobilePhone, password });
+    } catch (error) {
+      console.error("Login error:", error);
+      setError("Invalid mobile phone number or password.");
+    }
+  };
 
   return (
     <Grid
@@ -76,7 +99,7 @@ const Login = () => {
             />
 
             <CardContent>
-              <form>
+              <form onSubmit={handleSubmit}>
                 <Box sx={{ marginBottom: 2 }}>
                   <Typography
                     component="label"
