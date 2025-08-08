@@ -1,5 +1,4 @@
-// TODO: profile page
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import PageLayout from "../layout/pageLayout";
@@ -36,6 +35,22 @@ const Profile = () => {
   const [mobilePhone, setMobilePhone] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+useEffect(() => {
+  const storedUser = localStorage.getItem("user");
+  if (storedUser) {
+    try {
+      const userObj = JSON.parse(storedUser);
+      setFirstName(userObj.firstName || "");
+      setLastName(userObj.lastName || "");
+      setEmailAddress(userObj.emailAddress || "");
+      setEircode(userObj.eircode || "");
+      setMobilePhone(userObj.mobilePhone || "");
+    } catch (err) {
+      console.error("Error parsing user from localStorage", err);
+    }
+  }
+}, []);
+  
   return (
     <PageLayout>
       <Box sx={{ maxWidth: 1024, mx: "auto", px: 4, py: 8 }}>
@@ -67,12 +82,6 @@ const Profile = () => {
 
         {activeView === "profile" && (
           <Card>
-            <CardHeader>
-              {/* <CardTitle>Profile Information</CardTitle> */}
-              {/* <CardDescription>Update your personal information</CardDescription> */}
-            </CardHeader>
-
-            {/* TODO: handle onSubmit inside form */}
             <CardContent>
               <form
                 style={{ display: "flex", flexDirection: "column", gap: 2 }}
@@ -160,12 +169,7 @@ const Profile = () => {
 
         {activeView === "password" && (
           <Card>
-            <CardHeader>
-              {/* <CardTitle>Change Password</CardTitle> */}
-              {/* <CardDescription>Update your password</CardDescription> */}
-            </CardHeader>
             <CardContent>
-              {/* TODO: handle handle password change inside form */}
               <form
                 style={{ display: "flex", flexDirection: "column", gap: 2 }}
               >
@@ -230,19 +234,6 @@ const Profile = () => {
             </CardContent>
           </Card>
         )}
-
-        <Box sx={{ mt: 4 }}>
-          {/* <Button
-            variant="outlined"
-            sx={{ borderColor: "#DC2626", color: "#DC2626" }}
-            onClick={() => {
-              logout();
-              navigate("/login");
-            }}
-          >
-            Logout
-          </Button> */}
-        </Box>
       </Box>
     </PageLayout>
   );
