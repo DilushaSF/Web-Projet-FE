@@ -1,140 +1,98 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import {
-  AppBar,
-  Toolbar,
-  Box,
-  Typography,
-  IconButton,
-  Button,
-  TextField,
-  Drawer,
-  List,
-  ListItem,
-  ListItemText,
-  Divider,
-} from "@mui/material";
-import {
-  Menu as MenuIcon,
-  Close as CloseIcon,
   Search as SearchIcon,
   ShoppingCart as ShoppingCartIcon,
+  Menu as MenuIcon,
+  Close as CloseIcon,
   Person as PersonIcon,
   LocalShipping as LocalShippingIcon,
 } from "@mui/icons-material";
+import {
+  AppBar,
+  Toolbar,
+  Button,
+  TextField,
+  IconButton,
+  Typography,
+  Stack,
+  Drawer,
+  Box,
+} from "@mui/material";
+import { useAuth } from "../context/authContext";
+import { useCart } from "../context/cartContext";
 
 export const Navbar = () => {
-  // const { isAuthenticated, logout } = useAuth();
-  // const { totalItems } = useCart();
+  const { isAuthenticated, logout } = useAuth();
+  const { totalItems } = useCart();
   const navigate = useNavigate();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  const toggleDrawer = () => {
-    setIsDrawerOpen(!isDrawerOpen);
+  const handleSearch = (e: any) => {
+    e.preventDefault();
+    const newParams = new URLSearchParams(searchParams);
+    if (searchTerm) newParams.set("search", searchTerm);
+    else newParams.delete("search");
+    setSearchParams(newParams);
   };
 
+  useEffect(() => {
+    const currentSearchTerm = searchParams.get("search") || "";
+    setSearchTerm(currentSearchTerm);
+  }, [searchParams]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      const newParams = new URLSearchParams(searchParams);
+      if (searchTerm) newParams.set("search", searchTerm);
+      else newParams.delete("search");
+      setSearchParams(newParams);
+    }, 300);
+    return () => clearTimeout(timeoutId);
+  }, [searchTerm, searchParams, setSearchParams]);
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
   return (
-    <>
-      <AppBar position="sticky" sx={{ bgcolor: "#0A1E38" }}>
-        <Toolbar sx={{ maxWidth: "1200px", width: "100%", mx: "auto", py: 1 }}>
-          <Link
-            to="/products"
-            style={{ textDecoration: "none", color: "#C39D63" }}
+    <AppBar position="sticky" sx={{ bgcolor: "#0A1E38", boxShadow: 1 }}>
+      <Toolbar
+        sx={{
+          maxWidth: "1200px",
+          width: "100%",
+          mx: "auto",
+          justifyContent: "space-between",
+        }}
+      >
+        <Link to="/dashboard/products" style={{ textDecoration: "none" }}>
+          <Typography variant="h6" sx={{ color: "#C39D63" }}>
+            Tune Cart
+          </Typography>
+        </Link>
+
+        <Box
+          sx={{
+            display: { xs: "none", lg: "flex" },
+            alignItems: "center",
+            flex: 1,
+            justifyContent: "center",
+            mx: 2,
+          }}
+        >
+          <form
+            onSubmit={handleSearch}
+            style={{ display: "flex", width: "100%", maxWidth: "500px" }}
           >
-            <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-              Tune Cart
-            </Typography>
-          </Link>
-
-          <Box sx={{ display: { lg: "none" }, ml: "auto" }}>
-            <IconButton onClick={toggleDrawer} sx={{ color: "white" }}>
-              {isDrawerOpen ? <CloseIcon /> : <MenuIcon />}
-            </IconButton>
-          </Box>
-
-          <Box
-            sx={{
-              flexGrow: 1,
-              display: { xs: "none", lg: "flex" },
-              alignItems: "center",
-              justifyContent: "center",
-              mx: 3,
-            }}
-          >
-            <form style={{ display: "flex" }}>
-              {/* TODO: Add a search function */}
-              <TextField
-                size="small"
-                variant="outlined"
-                placeholder="Search for musical instruments..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                sx={{
-                  bgcolor: "white",
-                  "& .MuiOutlinedInput-root": { borderRadius: "4px 0 0 4px" },
-                }}
-              />
-              <Button
-                type="submit"
-                sx={{
-                  bgcolor: "#C39D63",
-                  color: "black",
-                  borderRadius: "0 4px 4px 0",
-                }}
-              >
-                <SearchIcon />
-              </Button>
-            </form>
-          </Box>
-
-          <Box
-            sx={{
-              display: { xs: "none", lg: "flex" },
-              alignItems: "center",
-              gap: 3,
-            }}
-          >
-            <Link to="/cart" style={{ color: "white" }}>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                <ShoppingCartIcon fontSize="small" />
-                <Typography variant="body2">Cart</Typography>
-              </Box>
-            </Link>
-            <Link to="/orders" style={{ color: "white" }}>
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <LocalShippingIcon />
-                <Typography sx={{ ml: 1 }}>My Orders</Typography>
-              </Box>
-            </Link>
-            <Link to="/profile" style={{ color: "white" }}>
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <PersonIcon />
-                <Typography sx={{ ml: 1 }}>Account</Typography>
-              </Box>
-            </Link>
-            {/* TODO: Check auth status for login and register */}
-          </Box>
-        </Toolbar>
-      </AppBar>
-
-      <Drawer anchor="top" open={isDrawerOpen} onClose={toggleDrawer}>
-        <Box sx={{ bgcolor: "#0A1E38", color: "white", px: 2, py: 2 }}>
-          <form style={{ display: "flex", marginBottom: 16 }}>
-            {/* TODO: add handleSearch function */}
             <TextField
               variant="outlined"
-              placeholder="Search products..."
-              fullWidth
-              size="small"
+              placeholder="Search for musical instruments..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               sx={{
                 bgcolor: "white",
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "4px 0 0 4px",
-                },
+                flexGrow: 1,
+                "& .MuiOutlinedInput-root": { borderRadius: "4px 0 0 4px" },
               }}
             />
             <Button
@@ -143,72 +101,253 @@ export const Navbar = () => {
                 bgcolor: "#C39D63",
                 color: "black",
                 borderRadius: "0 4px 4px 0",
+                minWidth: "auto",
+                p: 1,
               }}
             >
               <SearchIcon />
             </Button>
           </form>
+        </Box>
 
-          {/* TODO: check links later */}
-          <List>
-            <ListItem component={Link} to="/products" onClick={toggleDrawer}>
-              <ListItemText primary="All Products" sx={{ color: "white" }} />
-            </ListItem>
-            <ListItem component={Link} to="" onClick={toggleDrawer}>
-              <ListItemText primary="Piano" sx={{ color: "white" }} />
-            </ListItem>
-            <ListItem component={Link} to="" onClick={toggleDrawer}>
-              <ListItemText primary="Guitar" sx={{ color: "white" }} />
-            </ListItem>
-            <ListItem component={Link} to="" onClick={toggleDrawer}>
-              <ListItemText primary="Melodia" sx={{ color: "white" }} />
-            </ListItem>
-            <ListItem component={Link} to="" onClick={toggleDrawer}>
-              <ListItemText primary="Agon" sx={{ color: "white" }} />
-            </ListItem>
+        <IconButton
+          sx={{ display: { lg: "none" }, color: "white" }}
+          onClick={toggleMenu}
+        >
+          {isMenuOpen ? <CloseIcon /> : <MenuIcon />}
+        </IconButton>
 
-            <Divider sx={{ bgcolor: "#145DA0", my: 1 }} />
-
-            <ListItem component={Link} to="/cart" onClick={toggleDrawer}>
-              <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Stack
+          direction="row"
+          spacing={2}
+          alignItems="center"
+          sx={{ display: { xs: "none", lg: "flex" } }}
+        >
+          <Link
+            to="/dashboard/cart"
+            style={{ textDecoration: "none", color: "white" }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Box
+                sx={{
+                  position: "relative",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
                 <ShoppingCartIcon />
-                {/* TODO: Get total Items count */}
-                <Typography sx={{ ml: 1 }}>Cart</Typography>
+                {totalItems > 0 && (
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      top: -10,
+                      right: -5,
+                      bgcolor: "#C39D63",
+                      color: "#0A1E38",
+                      borderRadius: "50%",
+                      width: 20,
+                      height: 20,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: 12,
+                    }}
+                  >
+                    {totalItems}
+                  </Box>
+                )}
               </Box>
-            </ListItem>
+              <Typography sx={{ ml: 1 }}>Cart</Typography>
+            </Box>
+          </Link>
 
-            {/* TODO: check auth status */}
+          <Link
+            to="/dashboard/orders"
+            style={{ textDecoration: "none", color: "white" }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <LocalShippingIcon />
+              <Typography sx={{ ml: 1 }}>My Orders</Typography>
+            </Box>
+          </Link>
+
+          {isAuthenticated ? (
             <>
-              <ListItem component={Link} to="/account" onClick={toggleDrawer}>
+              <Link
+                to="/dashboard/profile"
+                style={{ textDecoration: "none", color: "white" }}
+              >
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <PersonIcon />
                   <Typography sx={{ ml: 1 }}>Account</Typography>
                 </Box>
-              </ListItem>
-              <ListItem>
-                <Button
-                  // onClick={() => {
-                  //   logout();
-                  //   toggleDrawer();
-                  // }}
-                  sx={{ color: "white" }}
-                >
-                  Logout
-                </Button>
-              </ListItem>
+              </Link>
+              <Button onClick={() => logout()} sx={{ color: "white" }}>
+                Logout
+              </Button>
             </>
-
+          ) : (
             <>
-              <ListItem component={Link} to="/login" onClick={toggleDrawer}>
-                <ListItemText primary="Login" sx={{ color: "white" }} />
-              </ListItem>
-              <ListItem component={Link} to="/register" onClick={toggleDrawer}>
-                <ListItemText primary="Register" sx={{ color: "#C39D63" }} />
-              </ListItem>
+              <Button
+                onClick={() => navigate("/auth/login")}
+                sx={{ color: "white" }}
+              >
+                Login
+              </Button>
+              <Button
+                sx={{ bgcolor: "#C39D63", color: "black" }}
+                onClick={() => navigate("/auth/register")}
+              >
+                Register
+              </Button>
             </>
-          </List>
+          )}
+        </Stack>
+      </Toolbar>
+
+      <Drawer
+        anchor="top"
+        open={isMenuOpen}
+        onClose={toggleMenu}
+        sx={{
+          "& .MuiDrawer-paper": {
+            bgcolor: "#0A1E38",
+            color: "white",
+            px: 2,
+            py: 2,
+            top: "64px",
+          },
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 1,
+            alignItems: "center",
+          }}
+        >
+          <form
+            onSubmit={handleSearch}
+            style={{
+              display: "flex",
+              marginBottom: 2,
+              width: "100%",
+              maxWidth: "500px",
+            }}
+          >
+            <TextField
+              variant="outlined"
+              placeholder="Search products..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              sx={{
+                bgcolor: "white",
+                flexGrow: 1,
+                "& .MuiOutlinedInput-root": { borderRadius: "4px 0 0 4px" },
+              }}
+            />
+            <Button
+              type="submit"
+              sx={{
+                bgcolor: "#C39D63",
+                color: "black",
+                borderRadius: "0 4px 4px 0",
+                minWidth: "auto",
+                p: 1,
+              }}
+            >
+              <SearchIcon />
+            </Button>
+          </form>
+          <Link
+            to="/dashboard/products"
+            onClick={toggleMenu}
+            style={{ color: "white", textDecoration: "none" }}
+          >
+            All Products
+          </Link>
+          <Link
+            to="/dashboard/products?category=guitar"
+            onClick={toggleMenu}
+            style={{ color: "white", textDecoration: "none" }}
+          >
+            Guitar
+          </Link>
+          <Link
+            to="/products?category=balls"
+            onClick={toggleMenu}
+            style={{ color: "white", textDecoration: "none" }}
+          >
+            Balls
+          </Link>
+          <Link
+            to="/products?category=gloves"
+            onClick={toggleMenu}
+            style={{ color: "white", textDecoration: "none" }}
+          >
+            Gloves
+          </Link>
+          <Link
+            to="/products?category=pads"
+            onClick={toggleMenu}
+            style={{ color: "white", textDecoration: "none" }}
+          >
+            Pads
+          </Link>
+          <Box sx={{ height: 1, bgcolor: "#145DA0", my: 1, width: "100%" }} />
+          <Link
+            to="/dashboard/cart"
+            onClick={toggleMenu}
+            style={{ color: "white", textDecoration: "none" }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <ShoppingCartIcon />
+              <Typography sx={{ ml: 1 }}>Cart ({totalItems})</Typography>
+            </Box>
+          </Link>
+          {isAuthenticated ? (
+            <>
+              <Link
+                to="/account"
+                onClick={toggleMenu}
+                style={{ color: "white", textDecoration: "none" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <PersonIcon />
+                  <Typography sx={{ ml: 1 }}>Account</Typography>
+                </Box>
+              </Link>
+              <Button
+                onClick={() => {
+                  logout();
+                  toggleMenu();
+                }}
+                sx={{ color: "white" }}
+              >
+                Logout
+              </Button>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/auth/login"
+                onClick={toggleMenu}
+                style={{ color: "white", textDecoration: "none" }}
+              >
+                Login
+              </Link>
+              <Link
+                to="/auth/register"
+                onClick={toggleMenu}
+                style={{ color: "#C39D63", textDecoration: "none" }}
+              >
+                Register
+              </Link>
+            </>
+          )}
         </Box>
       </Drawer>
-    </>
+    </AppBar>
   );
 };
