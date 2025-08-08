@@ -57,6 +57,7 @@ export default function Router() {
         { path: "category-selection", element: <HomePage /> },
         { path: "brand-selection", element: <BrandSelection /> },
         { path: "products", element: <Products /> },
+        { path: "product/:id", element: <ProductDetail /> },
 
         { path: "*", element: <Navigate to="/404" replace /> },
       ],
@@ -92,3 +93,6 @@ const BrandSelection = Loadable(
   lazy(() => import("../../pages/dashboard/brandSelection"))
 );
 const Products = Loadable(lazy(() => import("../../pages/product/products")));
+const ProductDetail = Loadable(
+  lazy(() => import("../../pages/product/productDetail"))
+);

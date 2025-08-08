@@ -32,7 +32,7 @@ const Products = () => {
         console.log("dataaaa", data);
 
         const transformedData: Product[] = data.map((item: any) => ({
-          productId: item.id || item.productId,
+          productId: item.productId,
           productName: item.name || item.productName,
           price: item.price,
           productCategory: item.category || item.productCategory,
