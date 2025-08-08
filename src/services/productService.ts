@@ -26,8 +26,11 @@ export interface BrandType {
 
 export const getProductById = async (productId: string): Promise<Product> => {
   const response = await axiosInstance.get(`/products/${productId}`);
-  console.log("resss dataaa", response.data.data.product);
-  return response.data.data.product;
+  const product = response.data.data.product;
+  return {
+    ...product,
+    images: product.images?.map((img: any) => img.url) || [],
+  };
 };
 
 export const getByProductsFilter = async (
