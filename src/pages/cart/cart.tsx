@@ -25,11 +25,15 @@ const Cart = () => {
     if (!productId) {
       enqueueSnackbar("Cannot remove item: Product ID is missing", {
         variant: "error",
+        anchorOrigin: { vertical: "top", horizontal: "right" },
       });
       return;
     }
     removeFromCart(productId);
-    enqueueSnackbar(`${productName} removed from cart`, { variant: "success" });
+    enqueueSnackbar(`${productName} removed from cart`, {
+      variant: "success",
+      anchorOrigin: { vertical: "top", horizontal: "right" },
+    });
   };
 
   const handleUpdateQuantity = (
@@ -39,6 +43,7 @@ const Cart = () => {
     if (!productId) {
       enqueueSnackbar("Cannot update quantity: Product ID is missing", {
         variant: "error",
+        anchorOrigin: { vertical: "top", horizontal: "right" },
       });
       return;
     }
@@ -49,7 +54,10 @@ const Cart = () => {
 
   const handleClearCart = () => {
     clearCart();
-    enqueueSnackbar("Cart cleared", { variant: "success" });
+    enqueueSnackbar("Cart cleared", {
+      variant: "success",
+      anchorOrigin: { vertical: "top", horizontal: "right" },
+    });
   };
 
   if (items.length === 0) {
@@ -108,7 +116,7 @@ const Cart = () => {
 
               {items.map((item) => (
                 <Box
-                  key={item.product.productId || Math.random()} // Fallback key if productId is undefined
+                  key={item.product.productId || Math.random()}
                   sx={{
                     display: { xs: "block", md: "flex" },
                     alignItems: "center",
@@ -119,7 +127,9 @@ const Cart = () => {
                 >
                   {/* Product */}
                   <Box sx={{ flex: 1, display: "flex", mb: { xs: 2, md: 0 } }}>
-                    <Link to={`/product/${item.product.productId || ""}`}>
+                    <Link
+                      to={`/dashboard/product/${item.product.productId || ""}`}
+                    >
                       <Box
                         component="img"
                         src={item.product.images?.[0]}
@@ -134,7 +144,11 @@ const Cart = () => {
                       />
                     </Link>
                     <Box>
-                      <Link to={`/product/${item.product.productId || ""}`}>
+                      <Link
+                        to={`/dashboard/product/${
+                          item.product.productId || ""
+                        }`}
+                      >
                         <Typography
                           sx={{
                             color: "#0A1E38",

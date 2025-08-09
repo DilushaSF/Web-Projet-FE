@@ -48,9 +48,9 @@ export default function Router() {
     {
       path: "dashboard",
       element: (
-        // <PrivateWrapper>
-        <RouteWrapper />
-        // </PrivateWrapper>
+        <ProtectedRoute>
+          <RouteWrapper />
+        </ProtectedRoute>
       ),
       children: [
         { element: <Navigate to=" " replace />, index: true },
@@ -58,9 +58,11 @@ export default function Router() {
         { path: "brand-selection", element: <BrandSelection /> },
         { path: "products", element: <Products /> },
         { path: "product/:id", element: <ProductDetail /> },
-        // { path: "cart", element: <Cart /> },
+        { path: "cart", element: <Cart /> },
 
         { path: "profile", element: <Profile /> },
+        { path: "checkout", element: <Checkout /> },
+
         { path: "*", element: <Navigate to="/404" replace /> },
       ],
     },
@@ -98,5 +100,17 @@ const Products = Loadable(lazy(() => import("../../pages/product/products")));
 const ProductDetail = Loadable(
   lazy(() => import("../../pages/product/productDetail"))
 );
-// const Cart = Loadable(lazy(() => import("../../pages/cart/cart")));
+const Cart = Loadable(lazy(() => import("../../pages/cart/cart")));
 const Profile = Loadable(lazy(() => import("../../pages/profile/profile")));
+const Checkout = Loadable(lazy(() => import("../../pages/checkout/checkout")));
+
+// Auth route wrapper
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    return <Navigate to="/auth/login" />;
+  }
+
+  return <>{children}</>;
+};
