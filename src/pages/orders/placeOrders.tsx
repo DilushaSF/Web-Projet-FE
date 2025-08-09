@@ -19,8 +19,8 @@ import { Close } from "@mui/icons-material";
 import PageLayout from "../layout/pageLayout";
 import { useCart } from "../context/cartContext";
 import { useSnackbar } from "notistack";
-// import { checkout } from "@/services/orderService";
 import { brandNames } from "../../utils/consts";
+import { checkout } from "../../services/orderService";
 
 const PlaceOrder = () => {
   const navigate = useNavigate();
@@ -35,10 +35,23 @@ const PlaceOrder = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isOrderSuccess, setIsOrderSuccess] = useState(false);
 
+  // Auto-close dialog and navigate after 5 seconds
+  useEffect(() => {
+    if (isOrderSuccess) {
+      const timer = setTimeout(() => {
+        setIsOrderSuccess(false);
+        navigate("/orders");
+        clearCart();
+        setIsProcessing(false);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [isOrderSuccess, navigate, clearCart]);
+
   useEffect(() => {
     if (items.length === 0) {
       enqueueSnackbar("Your cart is empty", { variant: "warning" });
-      navigate("/products");
+      navigate("/dashboard/products");
     }
   }, [items, navigate, enqueueSnackbar]);
 
@@ -77,7 +90,7 @@ const PlaceOrder = () => {
       return;
     }
     try {
-      // await checkout({ ...orderDetails });
+      await checkout({ ...orderDetails });
       enqueueSnackbar(
         "Order placed successfully! You will receive an email shortly!",
         { variant: "success" }
@@ -93,7 +106,7 @@ const PlaceOrder = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Validate required fields
+    // Validate  fields
     if (
       !cardDetails.cardNumber ||
       !cardDetails.cardholderName ||
@@ -157,7 +170,7 @@ const PlaceOrder = () => {
                 <Typography variant="h6" sx={{ color: "#0A1E38", mb: 3 }}>
                   Payment Details
                 </Typography>
-                <form>
+                <form onClick={handleSubmit}>
                   <Box
                     sx={{ display: "flex", flexDirection: "column", gap: 2 }}
                   >
@@ -264,6 +277,8 @@ const PlaceOrder = () => {
               </Card>
             </Box>
           </Grid>
+
+          {/* Order Summary */}
           <Grid item xs={12} lg={4}>
             <Card sx={{ bgcolor: "white", boxShadow: 3 }}>
               <CardContent sx={{ pt: 3 }}>
@@ -390,8 +405,73 @@ const PlaceOrder = () => {
               </CardContent>
             </Card>
           </Grid>
-          {/* Order Summary */}
         </Grid>
+        <Dialog
+          open={isOrderSuccess}
+          onClose={() => {
+            setIsOrderSuccess(false);
+            navigate("/orders");
+            clearCart();
+            setIsProcessing(false);
+          }}
+        >
+          <DialogContent
+            sx={{
+              bgcolor: "#22C55E",
+              color: "white",
+              borderRadius: 2,
+              maxWidth: 400,
+              mx: "auto",
+              p: 3,
+              position: "relative",
+            }}
+          >
+            <IconButton
+              onClick={() => {
+                setIsOrderSuccess(false);
+                navigate("/orders");
+                clearCart();
+                setIsProcessing(false);
+              }}
+              sx={{
+                position: "absolute",
+                top: 8,
+                right: 8,
+                color: "white",
+                "&:hover": { bgcolor: "#16A34A" },
+              }}
+              aria-label="Close"
+            >
+              <Close />
+            </IconButton>
+            <DialogTitle
+              sx={{ color: "white", fontWeight: "bold", p: 0, mb: 2 }}
+            >
+              Order Successful
+            </DialogTitle>
+            <Typography sx={{ fontSize: "1rem" }}>
+              Your order has been placed successfully! You will receive a short
+              email later with the details.
+            </Typography>
+            <DialogActions sx={{ mt: 3, p: 0 }}>
+              <Button
+                onClick={() => {
+                  setIsOrderSuccess(false);
+                  navigate("/orders");
+                  clearCart();
+                  setIsProcessing(false);
+                }}
+                sx={{
+                  bgcolor: "white",
+                  color: "#0A1E38",
+                  "&:hover": { bgcolor: "#F3F4F6" },
+                }}
+              >
+                View Orders
+              </Button>
+            </DialogActions>
+          </DialogContent>
+        </Dialog>
       </Box>
     </PageLayout>
   );
