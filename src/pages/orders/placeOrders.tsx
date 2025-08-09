@@ -97,6 +97,24 @@ const PlaceOrder = () => {
     }
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Validate required fields
+    if (
+      !cardDetails.cardNumber ||
+      !cardDetails.cardholderName ||
+      !cardDetails.expiryDate ||
+      !cardDetails.cvv
+    ) {
+      enqueueSnackbar("Please fill in all payment details", {
+        variant: "error",
+      });
+      return;
+    }
+    setIsProcessing(true);
+    handleCheckout();
+  };
+
   const getBrandName = (brandId: number) => {
     return brandNames[brandId] || "Unknown Brand";
   };
