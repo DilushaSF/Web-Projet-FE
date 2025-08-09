@@ -10,45 +10,7 @@ import {
   Grid,
 } from "@mui/material";
 import { categoryNames } from "../../utils/consts";
-
-const BRANDS = [
-  {
-    id: 1,
-    name: "Yamaha",
-    image: "/images/yamaha_logo.jpg",
-    description: "Sound. Style. Precision.",
-  },
-  {
-    id: 2,
-    name: "Fender",
-    image: "/images/Fender_logo.png",
-    description: "Iconic. Bold. Timeless",
-  },
-  {
-    id: 3,
-    name: "Gibson",
-    image: "/images/gibson_logo.jpg",
-    description: "Pure Tone. Legendary.",
-  },
-  {
-    id: 4,
-    name: "Casio",
-    image: "/images/Casio_logo.jpg",
-    description: "Digital Music Magic",
-  },
-  {
-    id: 5,
-    name: "Rockstar",
-    image: "/images/rockstar_logo.png",
-    description: "Loud. Wild. Free.",
-  },
-  {
-    id: 6,
-    name: "Roland",
-    image: "/images/Roland_logo.jpg",
-    description: "Innovative Sound Tools",
-  },
-];
+import { BRANDS } from "../../utils/consts";
 
 const BrandSelection = () => {
   const navigate = useNavigate();
@@ -109,8 +71,8 @@ const BrandSelection = () => {
         >
           <Box sx={{ width: "100%", textAlign: "center" }}>
             <Typography sx={{ color: "#D3D3D3", mb: 1 }}>
-              Category: {getCategoryName()}
-              <span style={{ fontWeight: "bold" }}>Show Category Name</span>
+              Category:
+              <span style={{ fontWeight: "bold" }}>{getCategoryName()}</span>
             </Typography>
             <Typography variant="h3" sx={{ color: "white", mb: 2 }}>
               Choose Your Brand
