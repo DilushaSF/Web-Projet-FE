@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Container } from "@mui/material";
 import { Navbar } from "./Navbar";
+import { Footer } from "./footer";
 
 interface PageLayoutProps {
   children: React.ReactNode;
@@ -22,7 +23,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
           {children}
         </Container>
       </Box>
-      {/* <Footer /> */}
+      <Footer />
     </Box>
   );
 };
