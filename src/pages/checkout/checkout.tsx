@@ -38,6 +38,24 @@ const Checkout = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [tabValue, setTabValue] = useState("standard");
 
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!isAuthenticated) {
+      enqueueSnackbar("Please log in to continue checkout", {
+        variant: "warning",
+      });
+      navigate("/login?redirect=checkout");
+    }
+  }, [isAuthenticated, navigate, enqueueSnackbar]);
+
+  // Redirect to cart if cart is empty
+  useEffect(() => {
+    if (items.length === 0) {
+      enqueueSnackbar("Your cart is empty", { variant: "warning" });
+      navigate("/products");
+    }
+  }, [items, navigate, enqueueSnackbar]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormState((prev) => ({ ...prev, [name]: value }));
@@ -45,6 +63,51 @@ const Checkout = () => {
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: string) => {
     setTabValue(newValue);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Validate required fields
+    if (
+      !formState.firstName ||
+      !formState.lastName ||
+      !formState.email ||
+      !formState.phone ||
+      !formState.address ||
+      !formState.city ||
+      !formState.state ||
+      !formState.zipCode ||
+      !formState.country
+    ) {
+      enqueueSnackbar("Please fill in all required fields", {
+        variant: "error",
+      });
+      return;
+    }
+    // Validate product IDs
+    const invalidItems = items.filter((item) => !item.product.productId);
+    if (invalidItems.length > 0) {
+      enqueueSnackbar("Some items have missing product IDs", {
+        variant: "error",
+      });
+      return;
+    }
+    setOrderDetails({
+      recipientFirstName: formState.firstName,
+      recipientLastName: formState.lastName,
+      recipientMobilePhone: formState.phone,
+      recipientEircode: formState.zipCode,
+      items: items.map((item) => ({
+        productId: item.product.productId!,
+        quantity: item.quantity,
+      })),
+    });
+    setIsLoading(true);
+    // Simulate API call
+    setTimeout(() => {
+      navigate("/place-order");
+      setIsLoading(false);
+    }, 800);
   };
 
   const breadcrumbSteps = [
@@ -90,7 +153,7 @@ const Checkout = () => {
         <Grid container spacing={4}>
           {/* Checkout Form */}
           <Grid item xs={12} lg={8}>
-            <form>
+            <form onSubmit={handleSubmit}>
               <Box sx={{ display: "flex", flexDirection: "column", gap: 4 }}>
                 {/* Contact Information */}
                 <Card sx={{ bgcolor: "white", boxShadow: 3 }}>
@@ -448,7 +511,7 @@ const Checkout = () => {
             <Box sx={{ mt: 2 }}>
               <Button
                 variant="contained"
-                // onClick={handleSubmit}
+                onClick={handleSubmit}
                 disabled={isLoading}
                 sx={{
                   width: { xs: "100%", md: "auto" },
