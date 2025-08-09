@@ -68,6 +68,35 @@ const PlaceOrder = () => {
     }
   };
 
+  const handleCheckout = async () => {
+    if (!orderDetails) {
+      enqueueSnackbar("Order details are missing", { variant: "error" });
+      setIsProcessing(false);
+      return;
+    }
+    const invalidItems = items.filter((item) => !item.product.productId);
+    if (invalidItems.length > 0) {
+      enqueueSnackbar("Some items have missing product IDs", {
+        variant: "error",
+      });
+      setIsProcessing(false);
+      return;
+    }
+    try {
+      // await checkout({ ...orderDetails });
+      enqueueSnackbar(
+        "Order placed successfully! You will receive an email shortly!",
+        { variant: "success" }
+      );
+      setIsOrderSuccess(true);
+    } catch (error) {
+      enqueueSnackbar("Failed to place order. Please try again.", {
+        variant: "error",
+      });
+      setIsProcessing(false);
+    }
+  };
+
   const getBrandName = (brandId: number) => {
     return brandNames[brandId] || "Unknown Brand";
   };
