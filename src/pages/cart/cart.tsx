@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { Box, Button, Typography, IconButton } from "@mui/material";
+import { Grid, Box, Button, Typography } from "@mui/material";
 import { ShoppingBag } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 import PageLayout from "../layout/pageLayout";
 import { useCart } from "../context/cartContext";
 import { useSnackbar } from "notistack";
@@ -8,9 +9,16 @@ import { useSnackbar } from "notistack";
 const Cart = () => {
   const {
     items,
+    clearCart,
   } = useCart();
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
+
+  const handleClearCart = () => {
+    clearCart();
+    enqueueSnackbar("Cart cleared", { variant: "success" });
+  };
 
   if (items.length === 0) {
     return (
@@ -43,6 +51,106 @@ const Cart = () => {
         <Typography variant="h4" sx={{ color: "#0A1E38", mb: 4 }}>
           Your Cart
         </Typography>
+
+        <Grid container spacing={4}>
+          {/* Cart Items */}
+          <Grid item xs={12} lg={8}>
+            <Box sx={{ bgcolor: "white", borderRadius: 2, boxShadow: 3, p: 3 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  borderBottom: 1,
+                  borderColor: "divider",
+                  pb: 2,
+                  mb: 2,
+                  color: "#718096",
+                  fontWeight: "medium",
+                }}
+              >
+                <Box sx={{ flex: 1 }}>Product</Box>
+                <Box sx={{ width: 100, textAlign: "center" }}>Quantity</Box>
+                <Box sx={{ width: 80, textAlign: "right" }}>Price</Box>
+                <Box sx={{ width: 80, textAlign: "right" }}>Total</Box>
+                <Box sx={{ width: 60 }}></Box>
+              </Box>
+
+              {items.map((item) => (
+                <Box
+                  key={item.product.productId || Math.random()} // Fallback key if productId is undefined
+                  sx={{
+                    display: { xs: "block", md: "flex" },
+                    alignItems: "center",
+                    py: 2,
+                    borderBottom: 1,
+                    borderColor: "divider",
+                  }}
+                >
+                  {/* Product */}
+                  <Box sx={{ flex: 1, display: "flex", mb: { xs: 2, md: 0 } }}>
+                    <Link to={`/product/${item.product.productId || ""}`}>
+                      <Box
+                        component="img"
+                        src={
+                          item.product.images?.[0]
+                        }
+                        alt={item.product.productName}
+                        sx={{
+                          width: 80,
+                          height: 80,
+                          objectFit: "cover",
+                          borderRadius: 1,
+                          mr: 2,
+                        }}
+                      />
+                    </Link>
+                    <Box>
+                      <Link to={`/product/${item.product.productId || ""}`}>
+                        <Typography
+                          sx={{
+                            color: "#0A1E38",
+                            fontWeight: "medium",
+                            "&:hover": { color: "#145DA0" },
+                          }}
+                        >
+                          {item.product.productName}
+                        </Typography>
+                      </Link>
+                      <Typography
+                        sx={{
+                          color: "#0A1E38",
+                          fontWeight: "medium",
+                          mt: 1,
+                          display: { md: "none" },
+                        }}
+                      >
+                        ${item.product.price}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
+              ))}
+
+              <Box
+                sx={{ mt: 3, display: "flex", justifyContent: "space-between" }}
+              >
+                <Button
+                  variant="outlined"
+                  onClick={() => navigate("/products")}
+                  sx={{ borderColor: "#0A1E38", color: "#0A1E38" }}
+                >
+                  Continue Shopping
+                </Button>
+                <Button
+                  variant="text"
+                  onClick={handleClearCart}
+                  sx={{ color: "#EF4444", "&:hover": { bgcolor: "#FEF2F2" } }}
+                >
+                  Clear Cart
+                </Button>
+              </Box>
+            </Box>
+          </Grid>
+        </Grid>
       </Box>
     </PageLayout>
   );
