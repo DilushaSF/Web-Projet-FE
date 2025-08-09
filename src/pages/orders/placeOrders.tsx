@@ -1,0 +1,201 @@
+import { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import {
+  Grid,
+  Box,
+  Button,
+  Typography,
+  TextField,
+  Card,
+  CardContent,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  IconButton,
+  Breadcrumbs,
+} from "@mui/material";
+import { Close } from "@mui/icons-material";
+import PageLayout from "../layout/pageLayout";
+import { useCart } from "../context/cartContext";
+import { useSnackbar } from "notistack";
+// import { checkout } from "@/services/orderService";
+import { brandNames } from "../../utils/consts";
+
+const PlaceOrder = () => {
+  const navigate = useNavigate();
+  const { items, subtotal, clearCart, orderDetails } = useCart();
+  const { enqueueSnackbar } = useSnackbar();
+  const [cardDetails, setCardDetails] = useState({
+    cardNumber: "",
+    cardholderName: "",
+    expiryDate: "",
+    cvv: "",
+  });
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [isOrderSuccess, setIsOrderSuccess] = useState(false);
+
+  const breadcrumbSteps = [
+    { name: "Cart", href: "/dashboard/cart", isCurrent: false },
+    { name: "Checkout", href: "/dashboard/checkout", isCurrent: false },
+    { name: "Payment", href: "/dashboard/place-order", isCurrent: true },
+  ];
+
+  const getBrandName = (brandId: number) => {
+    return brandNames[brandId] || "Unknown Brand";
+  };
+
+  return (
+    <PageLayout>
+      <Box sx={{ maxWidth: 1200, mx: "auto", px: 2, py: 4 }}>
+        <Box sx={{ mb: 4 }}>
+          <Breadcrumbs aria-label="breadcrumb">
+            {breadcrumbSteps.map((step) =>
+              step.isCurrent ? (
+                <Typography
+                  key={step.name}
+                  sx={{ color: "#0A1E38", fontWeight: "medium" }}
+                >
+                  {step.name}
+                </Typography>
+              ) : (
+                <Link key={step.name} to={step.href}>
+                  <Typography
+                    sx={{ color: "#718096", "&:hover": { color: "#145DA0" } }}
+                  >
+                    {step.name}
+                  </Typography>
+                </Link>
+              )
+            )}
+          </Breadcrumbs>
+        </Box>
+
+        <Typography variant="h4" sx={{ color: "#0A1E38", mb: 4 }}>
+          Payment
+        </Typography>
+
+        <Grid container spacing={4}>
+          {/* Payment Form */}
+          <Grid item xs={12} lg={8}>
+            <Card sx={{ bgcolor: "white", boxShadow: 3 }}>
+              <CardContent sx={{ pt: 3 }}>
+                <Typography variant="h6" sx={{ color: "#0A1E38", mb: 3 }}>
+                  Payment Details
+                </Typography>
+                <form>
+                  <Box
+                    sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+                  >
+                    <TextField
+                      id="cardNumber"
+                      name="cardNumber"
+                      label="Card Number"
+                      placeholder="1234 5678 9012 3456"
+                      value={cardDetails.cardNumber}
+                      //   onChange={handleChange}
+                      inputProps={{ maxLength: 19 }}
+                      required
+                      fullWidth
+                      size="small"
+                    />
+                    <TextField
+                      id="cardholderName"
+                      name="cardholderName"
+                      label="Cardholder Name"
+                      placeholder="John Doe"
+                      value={cardDetails.cardholderName}
+                      //   onChange={handleChange}
+                      required
+                      fullWidth
+                      size="small"
+                    />
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} md={6}>
+                        <TextField
+                          id="expiryDate"
+                          name="expiryDate"
+                          label="Expiry Date (MM/YY)"
+                          placeholder="MM/YY"
+                          value={cardDetails.expiryDate}
+                          //   onChange={handleChange}
+                          inputProps={{ maxLength: 5 }}
+                          required
+                          fullWidth
+                          size="small"
+                        />
+                      </Grid>
+                      <Grid item xs={12} md={6}>
+                        <TextField
+                          id="cvv"
+                          name="cvv"
+                          label="CVV"
+                          placeholder="123"
+                          value={cardDetails.cvv}
+                          //   onChange={handleChange}
+                          inputProps={{ maxLength: 3 }}
+                          required
+                          fullWidth
+                          size="small"
+                        />
+                      </Grid>
+                    </Grid>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: { xs: "column", md: "row" },
+                        gap: 2,
+                        pt: 2,
+                      }}
+                    >
+                      <Button
+                        variant="outlined"
+                        onClick={() => navigate("/checkout")}
+                        sx={{
+                          flex: 1,
+                          color: "#0A1E38",
+                          borderColor: "#0A1E38",
+                        }}
+                      >
+                        Return to Shipping
+                      </Button>
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        disabled={isProcessing}
+                        sx={{
+                          flex: 1,
+                          bgcolor: "#0A1E38",
+                          "&:hover": { bgcolor: "#0A1E38" },
+                        }}
+                      >
+                        {isProcessing ? "Processing..." : "Place Order"}
+                      </Button>
+                    </Box>
+                  </Box>
+                </form>
+              </CardContent>
+            </Card>
+            <Box sx={{ mt: 4 }}>
+              <Card sx={{ bgcolor: "white", boxShadow: 3 }}>
+                <CardContent sx={{ pt: 3 }}>
+                  <Typography variant="h6" sx={{ color: "#0A1E38", mb: 2 }}>
+                    Secure Checkout
+                  </Typography>
+                  <Typography sx={{ color: "#718096" }}>
+                    Your payment information is encrypted and secure. We do not
+                    store your credit card details.
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Box>
+          </Grid>
+
+          {/* Order Summary */}
+        </Grid>
+      </Box>
+    </PageLayout>
+  );
+};
+
+export default PlaceOrder;
