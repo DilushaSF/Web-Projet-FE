@@ -59,6 +59,7 @@ export default function Router() {
         { path: "products", element: <Products /> },
         { path: "product/:id", element: <ProductDetail /> },
         { path: "cart", element: <Cart /> },
+        { path: "place-order", element: <PlaceOrder /> },
 
         { path: "profile", element: <Profile /> },
         { path: "checkout", element: <Checkout /> },
@@ -103,6 +104,9 @@ const ProductDetail = Loadable(
 const Cart = Loadable(lazy(() => import("../../pages/cart/cart")));
 const Profile = Loadable(lazy(() => import("../../pages/profile/profile")));
 const Checkout = Loadable(lazy(() => import("../../pages/checkout/checkout")));
+const PlaceOrder = Loadable(
+  lazy(() => import("../../pages/orders/placeOrders"))
+);
 
 // Auth route wrapper
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
