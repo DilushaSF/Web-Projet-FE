@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { Grid, Box, Button, Typography } from "@mui/material";
-import { ShoppingBag } from "@mui/icons-material";
+import { Grid, Box, Button, Typography, IconButton } from "@mui/material";
+import { Delete, Add, Remove, ShoppingBag } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import PageLayout from "../layout/pageLayout";
 import { useCart } from "../context/cartContext";
@@ -9,15 +9,51 @@ import { useSnackbar } from "notistack";
 const Cart = () => {
   const {
     items,
+    removeFromCart,
+    updateQuantity,
+    totalItems,
+    subtotal,
     clearCart,
   } = useCart();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
+  const handleRemoveItem = (
+    productId: string | undefined,
+    productName: string
+  ) => {
+    if (!productId) {
+      enqueueSnackbar("Cannot remove item: Product ID is missing", {
+        variant: "error",
+      });
+      return;
+    }
+    removeFromCart(productId);
+    enqueueSnackbar(`${productName} removed from cart`, { variant: "success" });
+  };
+
+  const handleUpdateQuantity = (
+    productId: string | undefined,
+    newQuantity: number
+  ) => {
+    if (!productId) {
+      enqueueSnackbar("Cannot update quantity: Product ID is missing", {
+        variant: "error",
+      });
+      return;
+    }
+    if (newQuantity > 0) {
+      updateQuantity(productId, newQuantity);
+    }
+  };
 
   const handleClearCart = () => {
     clearCart();
     enqueueSnackbar("Cart cleared", { variant: "success" });
+  };
+
+  const handleCheckout = () => {
+    navigate("/checkout");
   };
 
   if (items.length === 0) {
@@ -127,6 +163,95 @@ const Cart = () => {
                       </Typography>
                     </Box>
                   </Box>
+
+                  {/* Quantity */}
+                  <Box
+                    sx={{
+                      width: 100,
+                      display: "flex",
+                      justifyContent: "center",
+                      mb: { xs: 2, md: 0 },
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        border: "1px solid #D1D5DB",
+                        borderRadius: 1,
+                      }}
+                    >
+                      <IconButton
+                        onClick={() =>
+                          handleUpdateQuantity(
+                            item.product.productId,
+                            item.quantity - 1
+                          )
+                        }
+                        disabled={item.quantity <= 1}
+                        sx={{ p: 1 }}
+                        aria-label="Decrease quantity"
+                      >
+                        <Remove fontSize="small" />
+                      </IconButton>
+                      <Box
+                        sx={{
+                          width: 40,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontWeight: "medium",
+                        }}
+                      >
+                        {item.quantity}
+                      </Box>
+                      <IconButton
+                        onClick={() =>
+                          handleUpdateQuantity(
+                            item.product.productId,
+                            item.quantity + 1
+                          )
+                        }
+                        sx={{ p: 1 }}
+                        aria-label="Increase quantity"
+                      >
+                        <Add fontSize="small" />
+                      </IconButton>
+                    </Box>
+                  </Box>
+
+                  {/* Price */}
+                  <Box
+                    sx={{
+                      width: 80,
+                      textAlign: "right",
+                      display: { xs: "none", md: "block" },
+                    }}
+                  >
+                    ${item.product.price}
+                  </Box>
+
+                  {/* Subtotal */}
+                  <Box
+                    sx={{ width: 80, textAlign: "right", fontWeight: "medium" }}
+                  >
+                    ${(item.product.price * item.quantity).toFixed(2)}
+                  </Box>
+
+                  {/* Remove */}
+                  <Box sx={{ width: 60, textAlign: "right" }}>
+                    <IconButton
+                      onClick={() =>
+                        handleRemoveItem(
+                          item.product.productId,
+                          item.product.productName
+                        )
+                      }
+                      sx={{ color: "#9CA3AF", "&:hover": { color: "#EF4444" } }}
+                      aria-label={`Remove ${item.product.productName} from cart`}
+                    >
+                      <Delete />
+                    </IconButton>
+                  </Box>
                 </Box>
               ))}
 
@@ -148,6 +273,62 @@ const Cart = () => {
                   Clear Cart
                 </Button>
               </Box>
+            </Box>
+          </Grid>
+
+          {/* Order Summary */}
+          <Grid item xs={12} lg={4}>
+            <Box
+              sx={{
+                bgcolor: "white",
+                borderRadius: 2,
+                boxShadow: 3,
+                p: 3,
+                position: "sticky",
+                top: 96,
+              }}
+            >
+              <Typography variant="h6" sx={{ color: "#0A1E38", mb: 3 }}>
+                Order Summary
+              </Typography>
+              <Box
+                sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}
+              >
+                <Typography sx={{ color: "#718096" }}>
+                  Subtotal ({totalItems} items)
+                </Typography>
+                <Typography sx={{ fontWeight: "medium" }}>
+                  ${subtotal.toFixed(2)}
+                </Typography>
+              </Box>
+              <Box
+                sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}
+              >
+                <Typography sx={{ color: "#718096" }}>Shipping</Typography>
+                <Typography sx={{ fontWeight: "medium" }}>Free</Typography>
+              </Box>
+              <Box sx={{ borderTop: 1, borderColor: "divider", my: 2 }} />
+              <Box
+                sx={{ display: "flex", justifyContent: "space-between", mb: 3 }}
+              >
+                <Typography sx={{ color: "#0A1E38", fontWeight: "bold" }}>
+                  Total
+                </Typography>
+                <Typography sx={{ color: "#0A1E38", fontWeight: "bold" }}>
+                  ${subtotal.toFixed(2)}
+                </Typography>
+              </Box>
+              <Button
+                variant="contained"
+                onClick={handleCheckout}
+                sx={{
+                  width: "100%",
+                  bgcolor: "#0A1E38",
+                  "&:hover": { bgcolor: "#0A1E38" },
+                }}
+              >
+                Proceed to Checkout
+              </Button>
             </Box>
           </Grid>
         </Grid>
