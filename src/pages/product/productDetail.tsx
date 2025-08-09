@@ -18,6 +18,45 @@ import { categoryNames, brandNames } from "../../utils/consts";
 import { useQuery } from "@tanstack/react-query";
 import { useSnackbar } from "notistack";
 
+// Custom arrow components
+const PrevArrow = (props: any) => {
+  const { onClick } = props;
+  return (
+    <div
+      onClick={onClick}
+      style={{
+        position: "absolute",
+        top: "50%",
+        left: "10px",
+        zIndex: 1,
+        cursor: "pointer",
+        transform: "translateY(-50%)",
+      }}
+    >
+      <ArrowBack />
+    </div>
+  );
+};
+
+const NextArrow = (props: any) => {
+  const { onClick } = props;
+  return (
+    <div
+      onClick={onClick}
+      style={{
+        position: "absolute",
+        top: "50%",
+        right: "10px",
+        zIndex: 1,
+        cursor: "pointer",
+        transform: "translateY(-50%)",
+      }}
+    >
+      <ArrowBack style={{ transform: "rotate(180deg)" }} />
+    </div>
+  );
+};
+
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -70,6 +109,8 @@ const ProductDetail = () => {
     slidesToScroll: 1,
     arrows: true,
     autoplay: false,
+    prevArrow: <PrevArrow />,
+    nextArrow: <NextArrow />,
   };
 
   if (isLoading || !product) {
@@ -106,39 +147,35 @@ const ProductDetail = () => {
         </Button>
 
         {/* Main layout */}
-        <Grid container spacing={2} sx={{ mb: 4 }}>
+        <Grid container spacing={5} sx={{ mb: 4 }}>
           <Grid item xs={12} md={6}>
-            <Slider {...sliderSettings}>
-              {product.images && product.images.length > 0 ? (
-                product.images.map((image, index) => (
-                  <Box key={index} sx={{ textAlign: "center" }}>
-                    <img
-                      src={image}
-                      alt={`${product.productName} ${index + 1}`}
-                      style={{
-                        maxWidth: "100%",
-                        maxHeight: "400px",
-                        objectFit: "contain",
-                        margin: "auto",
-                      }}
-                    />
-                  </Box>
-                ))
-              ) : (
-                <Box sx={{ textAlign: "center" }}>
-                  <img
-                    src="https://via.placeholder.com/400"
-                    alt="No image available"
-                    style={{
-                      maxWidth: "100%",
-                      maxHeight: "400px",
-                      objectFit: "contain",
-                      margin: "auto",
-                    }}
-                  />
-                </Box>
+            <Box
+              sx={{
+                border: "1px solid #D3D3D3",
+                borderRadius: "8px",
+                overflow: "hidden",
+                position: "relative",
+              }}
+            >
+              {product.images && product.images.length > 0 && (
+                <Slider {...sliderSettings}>
+                  {product.images.map((image, index) => (
+                    <Box key={index} sx={{ textAlign: "center" }}>
+                      <img
+                        src={image}
+                        alt={`${product.productName} ${index + 1}`}
+                        style={{
+                          maxWidth: "100%",
+                          maxHeight: "400px",
+                          objectFit: "contain",
+                          margin: "auto",
+                        }}
+                      />
+                    </Box>
+                  ))}
+                </Slider>
               )}
-            </Slider>
+            </Box>
           </Grid>
           <Grid item xs={12} md={6}>
             <Box>
@@ -156,20 +193,20 @@ const ProductDetail = () => {
               >
                 {categoryName}
               </Typography>
-              <Typography variant="h4" sx={{ color: "#0A1E38", mb: 1 }}>
+              <Typography variant="h3" fontWeight="bold" sx={{ mb: 1 }}>
                 {product.productName}
               </Typography>
-              <Typography sx={{ color: "#718096", mb: 2 }}>
+              <Typography fontWeight="bold" sx={{ color: "#718096", mb: 2 }}>
                 {brandName}
               </Typography>
-              <Typography variant="h5" sx={{ color: "#0A1E38", mb: 2 }}>
+              <Typography fontWeight="bold" variant="h2" sx={{ mb: 2 }}>
                 ${product.price}
               </Typography>
               <Typography sx={{ color: "#4B5563", mb: 2 }}>
                 {product.productDescription}
               </Typography>
               {product.weight && (
-                <Typography sx={{ color: "#4B5563", mb: 2 }}>
+                <Typography fontWeight="bold" sx={{ color: "#4B5563", mb: 2 }}>
                   Weight: {product.weight} g
                 </Typography>
               )}
