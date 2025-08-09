@@ -8,8 +8,6 @@ import {
   TextField,
   Card,
   CardContent,
-  Tabs,
-  Tab,
   Breadcrumbs,
 } from "@mui/material";
 import PageLayout from "../layout/pageLayout";
@@ -36,7 +34,6 @@ const Checkout = () => {
     country: "United States",
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [tabValue, setTabValue] = useState("standard");
 
   // Redirect to login if not authenticated
   useEffect(() => {
@@ -63,10 +60,6 @@ const Checkout = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormState((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleTabChange = (_event: React.SyntheticEvent, newValue: string) => {
-    setTabValue(newValue);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -117,9 +110,9 @@ const Checkout = () => {
   };
 
   const breadcrumbSteps = [
-    { name: "Cart", href: "/cart", isCurrent: false },
-    { name: "Checkout", href: "/checkout", isCurrent: true },
-    { name: "Payment", href: "/place-order", isCurrent: false },
+    { name: "Cart", href: "/dashboard/cart", isCurrent: false },
+    { name: "Checkout", href: "/dashboard/checkout", isCurrent: true },
+    { name: "Payment", href: "/dashboard/place-order", isCurrent: false },
   ];
 
   const getBrandName = (brandId: number) => {
@@ -292,96 +285,6 @@ const Checkout = () => {
                         </Grid>
                       </Grid>
                     </Box>
-                  </CardContent>
-                </Card>
-
-                {/* Shipping Methods */}
-                <Card sx={{ bgcolor: "white", boxShadow: 3 }}>
-                  <CardContent sx={{ pt: 3 }}>
-                    <Typography variant="h6" sx={{ color: "#0A1E38", mb: 2 }}>
-                      Shipping Method
-                    </Typography>
-                    <Tabs
-                      value={tabValue}
-                      onChange={handleTabChange}
-                      sx={{ width: "100%" }}
-                    >
-                      <Box
-                        sx={{ borderBottom: 1, borderColor: "divider", mb: 2 }}
-                      >
-                        <Tab label="Standard" value="standard" />
-                        <Tab label="Express" value="express" />
-                        <Tab label="Overnight" value="overnight" />
-                      </Box>
-                      <Box sx={{ pt: 2 }}>
-                        {tabValue === "standard" && (
-                          <Box
-                            sx={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                            }}
-                          >
-                            <Box>
-                              <Typography sx={{ fontWeight: "medium" }}>
-                                Standard Shipping
-                              </Typography>
-                              <Typography
-                                sx={{ color: "#718096", fontSize: "0.875rem" }}
-                              >
-                                Delivered in 5-7 business days
-                              </Typography>
-                            </Box>
-                            <Typography sx={{ fontWeight: "medium" }}>
-                              Free
-                            </Typography>
-                          </Box>
-                        )}
-                        {tabValue === "express" && (
-                          <Box
-                            sx={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                            }}
-                          >
-                            <Box>
-                              <Typography sx={{ fontWeight: "medium" }}>
-                                Express Shipping
-                              </Typography>
-                              <Typography
-                                sx={{ color: "#718096", fontSize: "0.875rem" }}
-                              >
-                                Delivered in 2-3 business days
-                              </Typography>
-                            </Box>
-                            <Typography sx={{ fontWeight: "medium" }}>
-                              $9.99
-                            </Typography>
-                          </Box>
-                        )}
-                        {tabValue === "overnight" && (
-                          <Box
-                            sx={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                            }}
-                          >
-                            <Box>
-                              <Typography sx={{ fontWeight: "medium" }}>
-                                Overnight Shipping
-                              </Typography>
-                              <Typography
-                                sx={{ color: "#718096", fontSize: "0.875rem" }}
-                              >
-                                Delivered next business day
-                              </Typography>
-                            </Box>
-                            <Typography sx={{ fontWeight: "medium" }}>
-                              $19.99
-                            </Typography>
-                          </Box>
-                        )}
-                      </Box>
-                    </Tabs>
                   </CardContent>
                 </Card>
               </Box>
