@@ -104,7 +104,7 @@ const Checkout = () => {
     setIsLoading(true);
     // Simulate API call
     setTimeout(() => {
-      navigate("/place-order");
+      navigate("/dashboard/place-order");
       setIsLoading(false);
     }, 800);
   };
