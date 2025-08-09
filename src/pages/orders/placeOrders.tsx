@@ -41,6 +41,33 @@ const PlaceOrder = () => {
     { name: "Payment", href: "/dashboard/place-order", isCurrent: true },
   ];
 
+  useEffect(() => {
+    if (items.length === 0) {
+      enqueueSnackbar("Your cart is empty", { variant: "warning" });
+      navigate("/products");
+    }
+  }, [items, navigate, enqueueSnackbar]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (name === "cardNumber") {
+      const formattedValue = value
+        .replace(/\s/g, "")
+        .replace(/(\d{4})/g, "$1 ")
+        .trim();
+      setCardDetails((prev) => ({ ...prev, [name]: formattedValue }));
+    } else if (name === "expiryDate") {
+      const cleaned = value.replace(/\D/g, "");
+      let formatted = cleaned;
+      if (cleaned.length > 2) {
+        formatted = `${cleaned.slice(0, 2)}/${cleaned.slice(2, 4)}`;
+      }
+      setCardDetails((prev) => ({ ...prev, [name]: formatted }));
+    } else {
+      setCardDetails((prev) => ({ ...prev, [name]: value }));
+    }
+  };
+
   const getBrandName = (brandId: number) => {
     return brandNames[brandId] || "Unknown Brand";
   };
@@ -93,7 +120,7 @@ const PlaceOrder = () => {
                       label="Card Number"
                       placeholder="1234 5678 9012 3456"
                       value={cardDetails.cardNumber}
-                      //   onChange={handleChange}
+                      onChange={handleChange}
                       inputProps={{ maxLength: 19 }}
                       required
                       fullWidth
@@ -103,9 +130,9 @@ const PlaceOrder = () => {
                       id="cardholderName"
                       name="cardholderName"
                       label="Cardholder Name"
-                      placeholder="John Doe"
+                      placeholder="John Doe "
                       value={cardDetails.cardholderName}
-                      //   onChange={handleChange}
+                      onChange={handleChange}
                       required
                       fullWidth
                       size="small"
@@ -118,7 +145,7 @@ const PlaceOrder = () => {
                           label="Expiry Date (MM/YY)"
                           placeholder="MM/YY"
                           value={cardDetails.expiryDate}
-                          //   onChange={handleChange}
+                          onChange={handleChange}
                           inputProps={{ maxLength: 5 }}
                           required
                           fullWidth
@@ -132,7 +159,7 @@ const PlaceOrder = () => {
                           label="CVV"
                           placeholder="123"
                           value={cardDetails.cvv}
-                          //   onChange={handleChange}
+                          onChange={handleChange}
                           inputProps={{ maxLength: 3 }}
                           required
                           fullWidth
@@ -150,7 +177,7 @@ const PlaceOrder = () => {
                     >
                       <Button
                         variant="outlined"
-                        onClick={() => navigate("/checkout")}
+                        onClick={() => navigate("/dashboard/checkout")}
                         sx={{
                           flex: 1,
                           color: "#0A1E38",
