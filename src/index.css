@@ -56,6 +56,11 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+.slick-prev:before,
+.slick-next:before {
+  color: #0a1e38 !important;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
