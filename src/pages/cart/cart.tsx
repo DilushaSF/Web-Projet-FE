@@ -52,10 +52,6 @@ const Cart = () => {
     enqueueSnackbar("Cart cleared", { variant: "success" });
   };
 
-  const handleCheckout = () => {
-    navigate("/checkout");
-  };
-
   if (items.length === 0) {
     return (
       <PageLayout>
@@ -71,7 +67,7 @@ const Cart = () => {
           </Typography>
           <Button
             variant="contained"
-            onClick={() => navigate("/products")}
+            onClick={() => navigate("/dashboard/products")}
             sx={{ bgcolor: "#0A1E38", "&:hover": { bgcolor: "#0A1E38" } }}
           >
             Continue Shopping
@@ -126,9 +122,7 @@ const Cart = () => {
                     <Link to={`/product/${item.product.productId || ""}`}>
                       <Box
                         component="img"
-                        src={
-                          item.product.images?.[0]
-                        }
+                        src={item.product.images?.[0]}
                         alt={item.product.productName}
                         sx={{
                           width: 80,
@@ -288,7 +282,11 @@ const Cart = () => {
                 top: 96,
               }}
             >
-              <Typography variant="h6" sx={{ color: "#0A1E38", mb: 3 }}>
+              <Typography
+                variant="h6"
+                fontWeight="bold"
+                sx={{ color: "#0A1E38", mb: 3 }}
+              >
                 Order Summary
               </Typography>
               <Box
@@ -320,7 +318,7 @@ const Cart = () => {
               </Box>
               <Button
                 variant="contained"
-                onClick={handleCheckout}
+                onClick={() => navigate("/dashboard/checkout")}
                 sx={{
                   width: "100%",
                   bgcolor: "#0A1E38",
