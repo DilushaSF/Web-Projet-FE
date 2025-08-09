@@ -35,12 +35,6 @@ const PlaceOrder = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isOrderSuccess, setIsOrderSuccess] = useState(false);
 
-  const breadcrumbSteps = [
-    { name: "Cart", href: "/dashboard/cart", isCurrent: false },
-    { name: "Checkout", href: "/dashboard/checkout", isCurrent: false },
-    { name: "Payment", href: "/dashboard/place-order", isCurrent: true },
-  ];
-
   useEffect(() => {
     if (items.length === 0) {
       enqueueSnackbar("Your cart is empty", { variant: "warning" });
@@ -114,6 +108,12 @@ const PlaceOrder = () => {
     setIsProcessing(true);
     handleCheckout();
   };
+
+  const breadcrumbSteps = [
+    { name: "Cart", href: "/dashboard/cart", isCurrent: false },
+    { name: "Checkout", href: "/dashboard/checkout", isCurrent: false },
+    { name: "Payment", href: "/dashboard/place-order", isCurrent: true },
+  ];
 
   const getBrandName = (brandId: number) => {
     return brandNames[brandId] || "Unknown Brand";
@@ -264,7 +264,132 @@ const PlaceOrder = () => {
               </Card>
             </Box>
           </Grid>
-
+          <Grid item xs={12} lg={4}>
+            <Card sx={{ bgcolor: "white", boxShadow: 3 }}>
+              <CardContent sx={{ pt: 3 }}>
+                <Typography variant="h6" sx={{ color: "#0A1E38", mb: 2 }}>
+                  Order Summary
+                </Typography>
+                <Box
+                  sx={{
+                    mb: 2,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
+                  }}
+                >
+                  {items.map((item) => (
+                    <Box
+                      key={item.product.productId || Math.random()}
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "flex-start",
+                      }}
+                    >
+                      <Box sx={{ display: "flex", alignItems: "flex-start" }}>
+                        <Box sx={{ position: "relative" }}>
+                          <Box
+                            component="img"
+                            src={item.product.images?.[0]}
+                            alt={item.product.productName}
+                            sx={{
+                              width: 56,
+                              height: 56,
+                              objectFit: "cover",
+                              borderRadius: 1,
+                            }}
+                          />
+                          <Box
+                            sx={{
+                              position: "absolute",
+                              top: -8,
+                              right: -8,
+                              bgcolor: "#0A1E38",
+                              color: "white",
+                              borderRadius: "50%",
+                              width: 20,
+                              height: 20,
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              fontSize: "0.75rem",
+                            }}
+                          >
+                            {item.quantity}
+                          </Box>
+                        </Box>
+                        <Box sx={{ ml: 2 }}>
+                          <Typography
+                            sx={{
+                              fontWeight: "medium",
+                              lineHeight: 1.2,
+                              maxWidth: 200,
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+                            {item.product.productName}
+                          </Typography>
+                          <Typography
+                            sx={{ color: "#718096", fontSize: "0.875rem" }}
+                          >
+                            {getBrandName(item.product.productBrand)}
+                          </Typography>
+                        </Box>
+                      </Box>
+                      <Typography sx={{ fontWeight: "medium" }}>
+                        ${(item.product.price * item.quantity).toFixed(2)}
+                      </Typography>
+                    </Box>
+                  ))}
+                </Box>
+                <Box
+                  sx={{ borderTop: 1, borderColor: "divider", pt: 2, mb: 2 }}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      mb: 1,
+                    }}
+                  >
+                    <Typography sx={{ color: "#718096" }}>Subtotal</Typography>
+                    <Typography sx={{ fontWeight: "medium" }}>
+                      ${subtotal.toFixed(2)}
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      mb: 1,
+                    }}
+                  >
+                    <Typography sx={{ color: "#718096" }}>Shipping</Typography>
+                    <Typography sx={{ fontWeight: "medium" }}>Free</Typography>
+                  </Box>
+                  <Box
+                    sx={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <Typography sx={{ color: "#718096" }}>Tax</Typography>
+                    <Typography sx={{ fontWeight: "medium" }}>$0.00</Typography>
+                  </Box>
+                </Box>
+                <Box sx={{ borderTop: 1, borderColor: "divider", py: 2 }}>
+                  <Box
+                    sx={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <Typography sx={{ fontWeight: "bold" }}>Total</Typography>
+                    <Typography sx={{ color: "#0A1E38", fontWeight: "bold" }}>
+                      ${subtotal.toFixed(2)}
+                    </Typography>
+                  </Box>
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
           {/* Order Summary */}
         </Grid>
       </Box>
