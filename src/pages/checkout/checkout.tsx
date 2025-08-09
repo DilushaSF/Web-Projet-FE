@@ -43,16 +43,20 @@ const Checkout = () => {
     if (!isAuthenticated) {
       enqueueSnackbar("Please log in to continue checkout", {
         variant: "warning",
+        anchorOrigin: { vertical: "top", horizontal: "right" },
       });
-      navigate("/login?redirect=checkout");
+      navigate("/auth/login?redirect=checkout");
     }
   }, [isAuthenticated, navigate, enqueueSnackbar]);
 
   // Redirect to cart if cart is empty
   useEffect(() => {
     if (items.length === 0) {
-      enqueueSnackbar("Your cart is empty", { variant: "warning" });
-      navigate("/products");
+      enqueueSnackbar("Your cart is empty", {
+        variant: "warning",
+        anchorOrigin: { vertical: "top", horizontal: "right" },
+      });
+      navigate("/dashboard/products");
     }
   }, [items, navigate, enqueueSnackbar]);
 
@@ -81,6 +85,7 @@ const Checkout = () => {
     ) {
       enqueueSnackbar("Please fill in all required fields", {
         variant: "error",
+        anchorOrigin: { vertical: "top", horizontal: "right" },
       });
       return;
     }
@@ -89,6 +94,7 @@ const Checkout = () => {
     if (invalidItems.length > 0) {
       enqueueSnackbar("Some items have missing product IDs", {
         variant: "error",
+        anchorOrigin: { vertical: "top", horizontal: "right" },
       });
       return;
     }
