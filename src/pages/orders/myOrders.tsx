@@ -132,7 +132,39 @@ const Orders = () => {
           </Box>
         ) : (
        <Typography>
-        No orders yet!
+           <Card sx={{ textAlign: "center", py: 6 }}>
+            <CardContent>
+              <Box
+                sx={{
+                  width: 64,
+                  height: 64,
+                  bgcolor: "grey.100",
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  mx: "auto",
+                  mb: 2,
+                }}
+              >
+                {/* Uncomment and import ShoppingCartIcon if needed */}
+                {/* <ShoppingCartIcon sx={{ fontSize: 32, color: "grey.400" }} /> */}
+              </Box>
+              <Typography variant="h6" sx={{ mb: 1 }}>
+                No orders yet
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                You haven't placed any orders yet.
+              </Typography>
+              <Button
+                variant="contained"
+                sx={{ bgcolor: "#0A1E38", color: "white" }}
+                onClick={() => navigate("/products")}
+              >
+                Start Shopping
+              </Button>
+            </CardContent>
+          </Card>
        </Typography>
         )}
       </Box>
