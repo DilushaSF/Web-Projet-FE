@@ -77,7 +77,10 @@ const PlaceOrder = () => {
 
   const handleCheckout = async () => {
     if (!orderDetails) {
-      enqueueSnackbar("Order details are missing", { variant: "error" });
+      enqueueSnackbar("Order details are missing", {
+        variant: "error",
+        anchorOrigin: { vertical: "top", horizontal: "right" },
+      });
       setIsProcessing(false);
       return;
     }
@@ -85,6 +88,7 @@ const PlaceOrder = () => {
     if (invalidItems.length > 0) {
       enqueueSnackbar("Some items have missing product IDs", {
         variant: "error",
+        anchorOrigin: { vertical: "top", horizontal: "right" },
       });
       setIsProcessing(false);
       return;
@@ -93,12 +97,16 @@ const PlaceOrder = () => {
       await checkout({ ...orderDetails });
       enqueueSnackbar(
         "Order placed successfully! You will receive an email shortly!",
-        { variant: "success" }
+        {
+          variant: "success",
+          anchorOrigin: { vertical: "top", horizontal: "right" },
+        }
       );
       setIsOrderSuccess(true);
     } catch (error) {
       enqueueSnackbar("Failed to place order. Please try again.", {
         variant: "error",
+        anchorOrigin: { vertical: "top", horizontal: "right" },
       });
       setIsProcessing(false);
     }
@@ -115,6 +123,7 @@ const PlaceOrder = () => {
     ) {
       enqueueSnackbar("Please fill in all payment details", {
         variant: "error",
+        anchorOrigin: { vertical: "top", horizontal: "right" },
       });
       return;
     }
@@ -170,7 +179,7 @@ const PlaceOrder = () => {
                 <Typography variant="h6" sx={{ color: "#0A1E38", mb: 3 }}>
                   Payment Details
                 </Typography>
-                <form onClick={handleSubmit}>
+                <form onSubmit={handleSubmit}>
                   <Box
                     sx={{ display: "flex", flexDirection: "column", gap: 2 }}
                   >
