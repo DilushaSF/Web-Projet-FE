@@ -64,3 +64,8 @@ export const checkout = async (data: OrderDetailsParams): Promise<Order> => {
   const response = await axiosInstance.post("/orders/checkout", data);
   return response.data;
 };
+
+export const getUserOrders = async (): Promise<Order[]> => {
+  const response = await axiosInstance.get("/orders");
+  return response.data?.data?.orders;
+};
