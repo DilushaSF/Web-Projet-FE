@@ -52,7 +52,7 @@ const HomePage = () => {
   return (
     <PageLayout>
       {/* Banner Section */}
-      <Box mb={12}>
+      <Box mb={12} sx={{ display: {md: 'block', sm: 'none', xs: 'none' } }}>
         {/* TODO: Fix slider arrow colors */}
         <Slider {...sliderSettings}>
           {SLIDER_IMAGES.map((image, index) => (

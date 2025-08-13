@@ -70,14 +70,14 @@ export const Footer = () => {
               >
                 Products
               </MuiLink>
-              <MuiLink
+              {/* <MuiLink
                 component={Link}
                 to="/about"
                 color="gray"
                 underline="hover"
               >
                 About Us
-              </MuiLink>
+              </MuiLink> */}
               <MuiLink
                 component={Link}
                 to="/contact"
@@ -97,7 +97,7 @@ export const Footer = () => {
             <Box display="flex" flexDirection="column" gap={1}>
               <MuiLink
                 component={Link}
-                to="/products?category=bats"
+                to="/dashboard/brand-selection?category=1"
                 color="gray"
                 underline="hover"
               >
@@ -105,7 +105,7 @@ export const Footer = () => {
               </MuiLink>
               <MuiLink
                 component={Link}
-                to="/products?category=balls"
+                to="/dashboard/brand-selection?category=2"
                 color="gray"
                 underline="hover"
               >
@@ -113,7 +113,7 @@ export const Footer = () => {
               </MuiLink>
               <MuiLink
                 component={Link}
-                to="/products?category=gloves"
+                to="/dashboard/brand-selection?category=3"
                 color="gray"
                 underline="hover"
               >
@@ -121,7 +121,7 @@ export const Footer = () => {
               </MuiLink>
               <MuiLink
                 component={Link}
-                to="/products?category=pads"
+                to="/dashboard/brand-selection?category=4"
                 color="gray"
                 underline="hover"
               >

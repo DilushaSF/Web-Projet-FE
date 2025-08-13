@@ -268,32 +268,32 @@ export const Navbar = () => {
             All Products
           </Link>
           <Link
-            to="/dashboard/products?category=guitar"
+            to="/dashboard/brand-selection?category=1"
             onClick={toggleMenu}
             style={{ color: "white", textDecoration: "none" }}
           >
             Guitar
           </Link>
           <Link
-            to="/products?category=balls"
+            to="/dashboard/brand-selection?category=2"
             onClick={toggleMenu}
             style={{ color: "white", textDecoration: "none" }}
           >
-            Balls
+            Organs
           </Link>
           <Link
-            to="/products?category=gloves"
+            to="/dashboard/brand-selection?category=3"
             onClick={toggleMenu}
             style={{ color: "white", textDecoration: "none" }}
           >
-            Gloves
+            Flutes
           </Link>
           <Link
-            to="/products?category=pads"
+            to="/dashboard/brand-selection?category=4"
             onClick={toggleMenu}
             style={{ color: "white", textDecoration: "none" }}
           >
-            Pads
+            Violins
           </Link>
           <Box sx={{ height: 1, bgcolor: "#145DA0", my: 1, width: "100%" }} />
           <Link
