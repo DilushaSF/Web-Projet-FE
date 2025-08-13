@@ -162,7 +162,7 @@ export const Navbar = () => {
           </Link>
 
           <Link
-            to="/dashboard/orders"
+            to="/dashboard/my-orders"
             style={{ textDecoration: "none", color: "white" }}
           >
             <Box sx={{ display: "flex", alignItems: "center" }}>
