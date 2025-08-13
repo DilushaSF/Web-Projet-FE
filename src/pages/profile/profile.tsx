@@ -144,6 +144,9 @@ const Profile = () => {
               bgcolor: activeView === "profile" ? "#0A1E38" : "transparent",
               color: activeView === "profile" ? "white" : "#0A1E38",
               mr: 2,
+              "&:hover": {
+                bgcolor: activeView === "profile" ? "#0A1E38" : "#f0f0f0",
+              },
             }}
             onClick={() => setActiveView("profile")}
           >
@@ -153,6 +156,9 @@ const Profile = () => {
             sx={{
               bgcolor: activeView === "password" ? "#0A1E38" : "transparent",
               color: activeView === "password" ? "white" : "#0A1E38",
+              "&:hover": {
+                bgcolor: activeView === "password" ? "#0A1E38" : "#f0f0f0",
+              },
             }}
             onClick={() => setActiveView("password")}
           >
@@ -307,7 +313,15 @@ const Profile = () => {
                 )}
                 <Button
                   type="submit"
-                  sx={{ bgcolor: "#0A1E38", color: "white", mt: 2 }}
+                  sx={{
+                    bgcolor: "#0A1E38",
+                    color: "white",
+                    mt: 2,
+                    "&:hover": {
+                      bgcolor:
+                        "#0A1E38" 
+                    },
+                  }}
                   disabled={isLoading}
                 >
                   {isLoading ? "Updating..." : "Change Password"}

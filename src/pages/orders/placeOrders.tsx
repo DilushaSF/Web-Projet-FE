@@ -40,7 +40,7 @@ const PlaceOrder = () => {
     if (isOrderSuccess) {
       const timer = setTimeout(() => {
         setIsOrderSuccess(false);
-        navigate("/dashboard/orders");
+        navigate("/dashboard/my-orders");
         clearCart();
         setIsProcessing(false);
       }, 5000);
@@ -419,7 +419,7 @@ const PlaceOrder = () => {
           open={isOrderSuccess}
           onClose={() => {
             setIsOrderSuccess(false);
-            navigate("/dashboard/orders");
+            navigate("/dashboard/my-orders");
             clearCart();
             setIsProcessing(false);
           }}
@@ -438,7 +438,7 @@ const PlaceOrder = () => {
             <IconButton
               onClick={() => {
                 setIsOrderSuccess(false);
-                navigate("/orders");
+                navigate("/dashboard/my-orders");
                 clearCart();
                 setIsProcessing(false);
               }}
@@ -463,7 +463,7 @@ const PlaceOrder = () => {
               <Button
                 onClick={() => {
                   setIsOrderSuccess(false);
-                  navigate("/dashboard/orders");
+                  navigate("/dashboard/my-orders");
                   clearCart();
                   setIsProcessing(false);
                 }}
