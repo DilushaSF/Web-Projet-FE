@@ -40,7 +40,7 @@ const PlaceOrder = () => {
     if (isOrderSuccess) {
       const timer = setTimeout(() => {
         setIsOrderSuccess(false);
-        navigate("/orders");
+        navigate("/dashboard/orders");
         clearCart();
         setIsProcessing(false);
       }, 5000);
