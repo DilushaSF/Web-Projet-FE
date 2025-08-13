@@ -48,12 +48,12 @@ const PlaceOrder = () => {
     }
   }, [isOrderSuccess, navigate, clearCart]);
 
-  useEffect(() => {
-    if (items.length === 0) {
-      enqueueSnackbar("Your cart is empty", { variant: "warning" });
-      navigate("/dashboard/products");
-    }
-  }, [items, navigate, enqueueSnackbar]);
+  // useEffect(() => {
+  //   if (items.length === 0) {
+  //     enqueueSnackbar("Your cart is empty", { variant: "warning" });
+  //     navigate("/dashboard/products");
+  //   }
+  // }, [items, navigate, enqueueSnackbar]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -463,7 +463,7 @@ const PlaceOrder = () => {
               <Button
                 onClick={() => {
                   setIsOrderSuccess(false);
-                  navigate("/orders");
+                  navigate("/dashboard/orders");
                   clearCart();
                   setIsProcessing(false);
                 }}
