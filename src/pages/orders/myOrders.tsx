@@ -19,13 +19,11 @@ const Orders = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const [orders, setOrders] = useState<Order[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  // Fetch orders on mount
+  // Fetch orders 
   useEffect(() => {
     const fetchOrders = async () => {
-      setIsLoading(true);
+ 
       try {
         const orderData = await getUserOrders();
         console.log(orderData);
@@ -33,13 +31,10 @@ const Orders = () => {
         setOrders(Array.isArray(orderData) ? orderData : []);
       } catch (err) {
         console.error("Error fetching orders:", err);
-        setError("Failed to load orders");
         enqueueSnackbar("Failed to load orders", {
           variant: "error",
           anchorOrigin: { vertical: "top", horizontal: "right" },
         });
-      } finally {
-        setIsLoading(false);
       }
     };
 
@@ -51,32 +46,7 @@ const Orders = () => {
         <Typography variant="h4" sx={{ color: "#0A1E38", mb: 4 }}>
           My Orders
         </Typography>
-        {isLoading ? (
-          <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-            {[1, 2, 3].map((i) => (
-              <Card key={i} sx={{ p: 3 }}>
-                <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-                  <Box sx={{ height: 24, bgcolor: "grey.200", width: "25%", borderRadius: 1 }} />
-                  <Box sx={{ height: 16, bgcolor: "grey.200", width: "50%", borderRadius: 1 }} />
-                  <Box sx={{ height: 16, bgcolor: "grey.200", width: "33%", borderRadius: 1 }} />
-                </Box>
-              </Card>
-            ))}
-          </Box>
-        ) : error ? (
-          <Card sx={{ p: 6, textAlign: "center" }}>
-            <Typography color="error" sx={{ mb: 2 }}>
-              {error}
-            </Typography>
-            <Button
-              variant="contained"
-              sx={{ bgcolor: "#0A1E38", color: "white" }}
-              onClick={() => window.location.reload()}
-            >
-              Try Again
-            </Button>
-          </Card>
-        ) : orders.length > 0 ? (
+        {orders.length > 0 ? (
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {orders.map((order) => (
               <Card
@@ -147,8 +117,6 @@ const Orders = () => {
                   mb: 2,
                 }}
               >
-                {/* Uncomment and import ShoppingCartIcon if needed */}
-                {/* <ShoppingCartIcon sx={{ fontSize: 32, color: "grey.400" }} /> */}
               </Box>
               <Typography variant="h6" sx={{ mb: 1 }}>
                 No orders yet
