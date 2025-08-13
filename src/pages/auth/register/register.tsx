@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, {useState} from "react";
+import {useNavigate, Link} from "react-router-dom";
 
 import {
   Button,
@@ -13,6 +13,7 @@ import {
   Grid,
 } from "@mui/material";
 import SignUpImage from "../../../assets/images/signup_image.webp";
+import {useAuth} from "../../context/authContext";
 
 const bgImageStyle = {
   backgroundImage: `url(${SignUpImage})`,
@@ -27,10 +28,40 @@ const Login = () => {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [eircode, setEircode] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
+  const [emailAddress, setEmailAddress] = useState<string>("");
   const navigate = useNavigate();
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [setIsLoading] = useState<boolean>(false);
+  const {register, isLoading} = useAuth();
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
+    if (
+      !mobilePhone ||
+      !password ||
+      !emailAddress ||
+      !firstName ||
+      !lastName ||
+      !eircode
+    ) {
+      return;
+    }
+
+    try {
+      await register({
+        mobilePhone,
+        password,
+        emailAddress,
+        firstName,
+        lastName,
+        eircode,
+      });
+    } catch (error) {
+      console.error("Signup error:", error);
+      setError("Failed to create an account. Please try again.");
+    }
+  };
 
   return (
     <Grid
@@ -38,8 +69,7 @@ const Login = () => {
       sx={{
         height: "100vh",
         width: "100%",
-      }}
-    >
+      }}>
       {/* Left side - Form */}
       <Grid
         item
@@ -50,20 +80,18 @@ const Login = () => {
           alignItems: "center",
           justifyContent: "center",
           padding: 8,
-        }}
-      >
+        }}>
         <Box
           sx={{
             maxWidth: 448,
             width: "100%",
             height: "100%",
-          }}
-        >
-          <Box sx={{ textAlign: "center", mb: 3 }}>
-            <Typography variant="h2" sx={{ fontWeight: "bold", mb: 1 }}>
+          }}>
+          <Box sx={{textAlign: "center", mb: 3}}>
+            <Typography variant="h2" sx={{fontWeight: "bold", mb: 1}}>
               TuneCart
             </Typography>
-            <Typography variant="body1" sx={{ color: "#6B7280" }}>
+            <Typography variant="body1" sx={{color: "#6B7280"}}>
               Create a new account
             </Typography>
           </Box>
@@ -74,34 +102,31 @@ const Login = () => {
               boxShadow: 3,
               padding: 3,
               border: "1px solid #ccc",
-            }}
-          >
+            }}>
             <CardHeader
               title="Sign Up"
               subheader="Enter your information to create your account"
               titleTypographyProps={{
                 variant: "h5",
-                sx: { fontWeight: "bold", textAlign: "center" },
+                sx: {fontWeight: "bold", textAlign: "center"},
               }}
-              subheaderTypographyProps={{ sx: { textAlign: "center" } }}
+              subheaderTypographyProps={{sx: {textAlign: "center"}}}
             />
 
             <CardContent>
-              <form>
+              <form onSubmit={handleSubmit}>
                 <Box
                   sx={{
                     display: "flex",
                     gap: 2,
                     marginBottom: 2,
-                  }}
-                >
+                  }}>
                   {/* First Name */}
-                  <Box sx={{ flex: 1 }}>
+                  <Box sx={{flex: 1}}>
                     <Typography
                       component="label"
                       htmlFor="firstName"
-                      sx={{ display: "block" }}
-                    >
+                      sx={{display: "block"}}>
                       First Name
                     </Typography>
                     <TextField
@@ -115,7 +140,7 @@ const Login = () => {
                       }}
                       fullWidth
                       required
-                      sx={{ marginTop: 1 }}
+                      sx={{marginTop: 1}}
                       InputProps={{
                         sx: {
                           height: 30,
@@ -124,12 +149,11 @@ const Login = () => {
                     />
                   </Box>
 
-                  <Box sx={{ flex: 1 }}>
+                  <Box sx={{flex: 1}}>
                     <Typography
                       component="label"
                       htmlFor="lastName"
-                      sx={{ display: "block" }}
-                    >
+                      sx={{display: "block"}}>
                       Last Name
                     </Typography>
                     <TextField
@@ -143,7 +167,7 @@ const Login = () => {
                       }}
                       fullWidth
                       required
-                      sx={{ marginTop: 1 }}
+                      sx={{marginTop: 1}}
                       InputProps={{
                         sx: {
                           height: 30,
@@ -155,26 +179,25 @@ const Login = () => {
                 </Box>
 
                 {/* email */}
-                <Box sx={{ marginBottom: 2 }}>
+                <Box sx={{marginBottom: 2}}>
                   <Typography
                     component="label"
                     htmlFor="email"
-                    sx={{ display: "block" }}
-                  >
+                    sx={{display: "block"}}>
                     Email
                   </Typography>
                   <TextField
                     id="email"
                     type="text"
                     placeholder="name@example.com"
-                    value={email}
+                    value={emailAddress}
                     onChange={(e) => {
                       setError(null);
-                      setEmail(e.target.value);
+                      setEmailAddress(e.target.value);
                     }}
                     fullWidth
                     required
-                    sx={{ marginTop: 1 }}
+                    sx={{marginTop: 1}}
                     InputProps={{
                       sx: {
                         height: 30,
@@ -184,12 +207,11 @@ const Login = () => {
                 </Box>
 
                 {/* eircode */}
-                <Box sx={{ flex: 1, marginBottom: 2 }}>
+                <Box sx={{flex: 1, marginBottom: 2}}>
                   <Typography
                     component="label"
                     htmlFor="eircode"
-                    sx={{ display: "block" }}
-                  >
+                    sx={{display: "block"}}>
                     Eircode
                   </Typography>
                   <TextField
@@ -203,7 +225,7 @@ const Login = () => {
                     }}
                     fullWidth
                     required
-                    sx={{ marginTop: 1 }}
+                    sx={{marginTop: 1}}
                     InputProps={{
                       sx: {
                         height: 30,
@@ -213,12 +235,11 @@ const Login = () => {
                 </Box>
 
                 {/* mobilePhone */}
-                <Box sx={{ marginBottom: 2 }}>
+                <Box sx={{marginBottom: 2}}>
                   <Typography
                     component="label"
                     htmlFor="mobilePhone"
-                    sx={{ display: "block" }}
-                  >
+                    sx={{display: "block"}}>
                     Mobile Phone
                   </Typography>
                   <TextField
@@ -232,7 +253,7 @@ const Login = () => {
                     }}
                     fullWidth
                     required
-                    sx={{ marginTop: 1 }}
+                    sx={{marginTop: 1}}
                     InputProps={{
                       sx: {
                         height: 30,
@@ -242,12 +263,11 @@ const Login = () => {
                 </Box>
 
                 {/* password */}
-                <Box sx={{ marginBottom: 2 }}>
+                <Box sx={{marginBottom: 2}}>
                   <Typography
                     component="label"
                     htmlFor="password"
-                    sx={{ display: "block" }}
-                  >
+                    sx={{display: "block"}}>
                     Password
                   </Typography>
                   <TextField
@@ -261,7 +281,7 @@ const Login = () => {
                     }}
                     fullWidth
                     required
-                    sx={{ marginTop: 1 }}
+                    sx={{marginTop: 1}}
                     InputProps={{
                       sx: {
                         height: 30,
@@ -271,12 +291,11 @@ const Login = () => {
                 </Box>
 
                 {/* confirm password */}
-                <Box sx={{ marginBottom: 2 }}>
+                <Box sx={{marginBottom: 2}}>
                   <Typography
                     component="label"
                     htmlFor="confirmPassword"
-                    sx={{ display: "block" }}
-                  >
+                    sx={{display: "block"}}>
                     Confirm Password
                   </Typography>
                   <TextField
@@ -290,7 +309,7 @@ const Login = () => {
                     }}
                     fullWidth
                     required
-                    sx={{ marginTop: 1 }}
+                    sx={{marginTop: 1}}
                     InputProps={{
                       sx: {
                         height: 30,
@@ -307,10 +326,9 @@ const Login = () => {
                   sx={{
                     backgroundColor: "#0A1E38",
                     color: "white",
-                    "&:hover": { backgroundColor: "#0A1E38" },
+                    "&:hover": {backgroundColor: "#0A1E38"},
                     marginTop: 2,
-                  }}
-                >
+                  }}>
                   {isLoading ? "Logging in..." : "Register"}
                 </Button>
               </form>
@@ -321,8 +339,7 @@ const Login = () => {
                     fontSize: "0.875rem",
                     textAlign: "left",
                     marginTop: 2,
-                  }}
-                >
+                  }}>
                   {error}
                 </Typography>
               )}
@@ -334,9 +351,8 @@ const Login = () => {
                 marginTop: 2,
                 width: "100%",
                 padding: 2,
-              }}
-            >
-              <Typography variant="body2" sx={{ color: "#6B7280" }}>
+              }}>
+              <Typography variant="body2" sx={{color: "#6B7280"}}>
                 Already have an account?
                 <MuiLink
                   component={Link}
@@ -345,9 +361,8 @@ const Login = () => {
                     color: "#145DA0",
                     textDecoration: "none",
                     fontWeight: "medium",
-                    "&:hover": { textDecoration: "underline" },
-                  }}
-                >
+                    "&:hover": {textDecoration: "underline"},
+                  }}>
                   Login
                 </MuiLink>
               </Typography>
@@ -363,10 +378,9 @@ const Login = () => {
         md={6}
         sx={{
           ...bgImageStyle,
-          display: { xs: "none", md: "block" },
+          display: {xs: "none", md: "block"},
           backgroundColor: "#0A1E38",
-        }}
-      ></Grid>
+        }}></Grid>
     </Grid>
   );
 };
