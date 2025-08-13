@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, {createContext, useContext, useState, useEffect} from "react";
 
 import {
   login as loginService,
@@ -6,8 +6,8 @@ import {
   type LoginParams,
   type SignupParams,
 } from "../../services/authService";
-import type { User } from "../../services/userService";
-import { useSnackbar } from "notistack";
+import type {User} from "../../services/userService";
+import {useSnackbar} from "notistack";
 
 // Auth Types
 type AuthContextType = {
@@ -22,11 +22,11 @@ type AuthContextType = {
 // Create context
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export const AuthProvider = ({children}: {children: React.ReactNode}) => {
   const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { enqueueSnackbar } = useSnackbar();
+  const {enqueueSnackbar} = useSnackbar();
 
   // Check for stored user on component mount
   useEffect(() => {
@@ -78,7 +78,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       enqueueSnackbar("Registration successful", {
         variant: "success",
       });
-      window.location.href = "/login";
+      window.location.href = "/auth/login";
     } catch (error) {
       enqueueSnackbar("Registration failed", {
         variant: "error",
@@ -105,8 +105,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         logout,
         isAuthenticated,
         isLoading,
-      }}
-    >
+      }}>
       {children}
     </AuthContext.Provider>
   );
