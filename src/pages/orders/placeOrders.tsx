@@ -419,15 +419,15 @@ const PlaceOrder = () => {
           open={isOrderSuccess}
           onClose={() => {
             setIsOrderSuccess(false);
-            navigate("/orders");
+            navigate("/dashboard/orders");
             clearCart();
             setIsProcessing(false);
           }}
         >
           <DialogContent
             sx={{
-              bgcolor: "#22C55E",
-              color: "white",
+              bgcolor: "white",
+              color: "black",
               borderRadius: 2,
               maxWidth: 400,
               mx: "auto",
@@ -447,15 +447,12 @@ const PlaceOrder = () => {
                 top: 8,
                 right: 8,
                 color: "white",
-                "&:hover": { bgcolor: "#16A34A" },
               }}
               aria-label="Close"
             >
               <Close />
             </IconButton>
-            <DialogTitle
-              sx={{ color: "white", fontWeight: "bold", p: 0, mb: 2 }}
-            >
+            <DialogTitle sx={{ fontWeight: "bold", p: 0, mb: 2 }}>
               Order Successful
             </DialogTitle>
             <Typography sx={{ fontSize: "1rem" }}>
